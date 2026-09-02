@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinkt Investigation Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0F1117;
+    --surface: #1A1D27;
+    --surface-2: #242735;
+    --border: #2E3140;
+    --text: #E8E9ED;
+    --text-dim: #8B8FA3;
+    --accent: #6C63FF;
+    --accent-glow: rgba(108,99,255,0.15);
+    --red: #FF5A5A;
+    --red-glow: rgba(255,90,90,0.12);
+    --green: #34D399;
+    --green-glow: rgba(52,211,153,0.12);
+    --amber: #FBBF24;
+    --amber-glow: rgba(251,191,36,0.12);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  h1,h2,h3 { font-family: 'Fraunces', serif; letter-spacing: -0.02em; }
+
+  /* Top bar */
+  .topbar {
+    background: linear-gradient(135deg, #6C63FF 0%, #4F46E5 100%);
+    padding: 12px 0;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  /* Header */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(20px);
+  }
+  .header .wrap {
+    max-width: 1320px; margin: 0 auto; padding: 0 32px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .header .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 26px; font-weight: 800;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .header .logo .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--red); }
+  .header .badge {
+    background: var(--accent-glow); color: var(--accent);
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+    border: 1px solid rgba(108,99,255,0.25);
+  }
+  .nav-tabs {
+    display: flex; gap: 8px;
+  }
+  .nav-tabs button {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-dim); padding: 8px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-tabs button:hover, .nav-tabs button.active {
+    background: var(--accent); color: white; border-color: var(--accent);
+  }
+
+  /* Layout */
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+  .dashboard { padding: 32px 0 80px; }
+
+  /* Summary strip */
+  .summary-strip {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+    margin-bottom: 36px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .stat-card .label {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--text-dim); font-weight: 600; margin-bottom: 8px;
+  }
+  .stat-card .value {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; font-weight: 800; line-height: 1;
+  }
+  .stat-card .sub { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+  .stat-card.danger .value { color: var(--red); }
+  .stat-card.success .value { color: var(--green); }
+  .stat-card.warning .value { color: var(--amber); }
+  .stat-card.accent .value { color: var(--accent); }
+  .stat-card::after {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 80px; height: 80px; border-radius: 50%;
+    filter: blur(40px); opacity: 0.4;
+  }
+  .stat-card.danger::after { background: var(--red); }
+  .stat-card.success::after { background: var(--green); }
+  .stat-card.warning::after { background: var(--amber); }
+  .stat-card.accent::after { background: var(--accent); }
+
+  /* Section */
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-title {
+    font-size: 22px; font-weight: 700; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .num {
+    background: var(--accent); color: white;
+    width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-sub { color: var(--text-dim); font-size: 14px; margin-bottom: 20px; margin-left: 40px; }
+
+  /* Chart row */
+  .chart-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .chart-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .chart-box.full { grid-column: 1 / -1; }
+  .chart-box h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; font-weight: 600; margin-bottom: 16px;
+    color: var(--text);
+  }
+  .chart-box canvas { width: 100% !important; }
+
+  /* Findings callout */
+  .finding {
+    background: var(--surface-2);
+    border-left: 4px solid var(--red);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 18px 22px;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .finding.warn { border-left-color: var(--amber); }
+  .finding.info { border-left-color: var(--accent); }
+  .finding strong { color: var(--text); }
+  .finding .tag {
+    display: inline-block;
+    padding: 2px 10px; border-radius: 4px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    margin-right: 8px;
+  }
+  .finding .tag.critical { background: var(--red-glow); color: var(--red); }
+  .finding .tag.warning { background: var(--amber-glow); color: var(--amber); }
+  .finding .tag.insight { background: var(--accent-glow); color: var(--accent); }
+
+  /* Table */
+  .data-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px;
+  }
+  .data-table th {
+    text-align: left; padding: 10px 14px;
+    background: var(--surface-2); color: var(--text-dim);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    font-size: 11px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tr:hover td { background: rgba(108,99,255,0.04); }
+
+  /* Funnel */
+  .funnel { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+  .funnel-step {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--surface-2);
+    border-radius: 10px; padding: 14px 20px;
+    position: relative;
+  }
+  .funnel-step .bar {
+    height: 8px; border-radius: 4px;
+    position: absolute; bottom: 0; left: 0;
+    opacity: 0.3;
+  }
+  .funnel-step .step-num {
+    font-family: 'Fraunces', serif;
+    font-size: 28px; font-weight: 800;
+    min-width: 70px;
+  }
+  .funnel-step .step-label { font-size: 14px; color: var(--text-dim); }
+  .funnel-step .step-pct {
+    margin-left: auto;
+    font-size: 14px; font-weight: 700;
+    padding: 4px 12px; border-radius: 6px;
+  }
+  .funnel-step:nth-child(1) .step-num { color: var(--accent); }
+  .funnel-step:nth-child(1) .bar { background: var(--accent); width: 100%; }
+  .funnel-step:nth-child(2) .step-num { color: var(--amber); }
+  .funnel-step:nth-child(2) .bar { background: var(--amber); width: 34.9%; }
+  .funnel-step:nth-child(3) .step-num { color: var(--green); }
+  .funnel-step:nth-child(3) .bar { background: var(--green); width: 10.3%; }
+
+  .drop-arrow {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 30px; color: var(--red);
+    font-size: 13px; font-weight: 600;
+  }
+  .drop-arrow::before { content: '↓'; font-size: 18px; }
+
+  @media (max-width: 900px) {
+    .summary-strip { grid-template-columns: repeat(2, 1fr); }
+    .chart-row { grid-template-columns: 1fr; }
+    .nav-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">Clinkt Business Intelligence — Investigation Dashboard</div>
+
+<div class="header">
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>Clinkt Analytics</div>
+    <div class="nav-tabs">
+      <button class="active" onclick="scrollTo('#overview')">Overview</button>
+      <button onclick="scrollTo('#funnel')">Funnel</button>
+      <button onclick="scrollTo('#inventory')">Inventory</button>
+      <button onclick="scrollTo('#recommendations')">Recommendations</button>
+      <button onclick="scrollTo('#journey')">Journey</button>
+      <button onclick="scrollTo('#trends')">Trends</button>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="findings_report.html" target="_blank" style="background:var(--accent); color:white; padding:7px 14px; border-radius:8px; font-size:12px; font-weight:700; text-decoration:none;">📄 Findings Report</a>
+      <a href="clinkt-ui.html" target="_blank" style="background:var(--surface-2); border:1px solid var(--border); color:var(--text); padding:7px 12px; border-radius:8px; font-size:12px; font-weight:600; text-decoration:none;">🛒 Storefront</a>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard">
+<div class="wrap">
+
+<!-- ==================== OVERVIEW ==================== -->
+<div id="overview" class="summary-strip">
+  <div class="stat-card danger">
+    <div class="label">Cart Abandonment</div>
+    <div class="value">70.5%</div>
+    <div class="sub">666 of 945 carts abandoned</div>
+  </div>
+  <div class="stat-card warning">
+    <div class="label">Lost Revenue</div>
+    <div class="value">₹84.9K</div>
+    <div class="sub">vs ₹48.4K actual revenue</div>
+  </div>
+  <div class="stat-card danger">
+    <div class="label">Stock Problems</div>
+    <div class="value">60.7%</div>
+    <div class="sub">product-days sub-optimal</div>
+  </div>
+  <div class="stat-card accent">
+    <div class="label">Session Conversion</div>
+    <div class="value">26.9%</div>
+    <div class="sub">218 of 811 sessions</div>
+  </div>
+  <div class="stat-card warning">
+    <div class="label">Order Trend</div>
+    <div class="value">-21.2%</div>
+    <div class="sub">declining over 31 days</div>
+  </div>
+</div>
+
+<!-- ==================== 1. CONVERSION FUNNEL ==================== -->
+<div id="funnel" class="section">
+  <div class="section-title"><span class="num">1</span> The Disappearing Customer — Conversion Funnel</div>
+  <div class="section-sub">Customers show interest but vanish before purchasing. Where exactly are they dropping off?</div>
+
+  <div class="chart-row">
+    <div class="chart-box">
+      <h3>🔻 Session Funnel</h3>
+      <div class="funnel">
+        <div class="funnel-step">
+          <div class="step-num">2,708</div>
+          <div class="step-label">Product Views (811 sessions)</div>
+          <div class="step-pct" style="background:var(--accent-glow);color:var(--accent)">100%</div>
+          <div class="bar"></div>
+        </div>
+        <div class="drop-arrow">65.1% of views don't add to cart</div>
+        <div class="funnel-step">
+          <div class="step-num">945</div>
+          <div class="step-label">Add to Cart (547 sessions)</div>
+          <div class="step-pct" style="background:var(--amber-glow);color:var(--amber)">34.9%</div>
+          <div class="bar"></div>
+        </div>
+        <div class="drop-arrow">70.5% of cart items are ABANDONED</div>
+        <div class="funnel-step">
+          <div class="step-num">279</div>
+          <div class="step-label">Orders Placed (218 sessions)</div>
+          <div class="step-pct" style="background:var(--green-glow);color:var(--green)">10.3%</div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="finding">
+        <span class="tag critical">Critical</span>
+        For every <strong>10 items</strong> a customer adds to their cart, only <strong>3 are purchased</strong>. Clinkt is losing <strong>₹84,857</strong> in potential revenue from abandoned carts alone — that's <strong>1.75× the actual revenue</strong>.
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <h3>📊 Abandonment by Customer Segment</h3>
+      <canvas id="chartSegment" height="260"></canvas>
+      <div class="finding warn" style="margin-top:14px">
+        <span class="tag warning">Warning</span>
+        <strong>Family segment</strong> has the worst abandonment at <strong>79.5%</strong> despite having the highest AOV (₹192.60). These are high-value customers Clinkt is actively losing.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 2. INVENTORY ==================== -->
+<div id="inventory" class="section">
+  <div class="section-title"><span class="num">2</span> The Inventory Puzzle — Product Prioritization Failure</div>
+  <div class="section-sub">Products customers WANT are the ones most likely to be OUT OF STOCK. Demand signals are being ignored.</div>
+
+  <div class="chart-row">
+    <div class="chart-box">
+      <h3>📦 Stock Status Distribution (31 days)</h3>
+      <canvas id="chartStock" height="260"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>🎯 High Demand vs Stock Health</h3>
+      <canvas id="chartDemandStock" height="260"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-row" style="margin-top:20px">
+    <div class="chart-box full">
+      <h3>🚨 Critically Understocked Products</h3>
+      <table class="data-table">
+        <thead><tr><th>Product</th><th>Category</th><th>Demand Score</th><th>Avg Stock</th><th>Critical Days</th><th>Healthy Days %</th></tr></thead>
+        <tbody>
+          <tr><td>Instant Noodles 4-Pack</td><td>Packaged Foods</td><td>481</td><td>10.1</td><td>11</td><td style="color:var(--red)">0.0%</td></tr>
+          <tr><td>Bath Soap 4-Pack</td><td>Personal Care</td><td>221</td><td>12.4</td><td>9</td><td style="color:var(--red)">0.0%</td></tr>
+          <tr><td>Pasta 500 g</td><td>Packaged Foods</td><td>202</td><td>10.1</td><td>1</td><td style="color:var(--red)">0.0%</td></tr>
+          <tr><td>Orange Juice 1 L</td><td>Beverages</td><td>398</td><td>12.5</td><td>0</td><td style="color:var(--red)">0.0%</td></tr>
+          <tr><td>Laundry Detergent 1 kg</td><td>Home Care</td><td>299</td><td>12.4</td><td>0</td><td style="color:var(--red)">0.0%</td></tr>
+        </tbody>
+      </table>
+      <div class="finding">
+        <span class="tag critical">Critical</span>
+        <strong>Instant Noodles 4-Pack</strong> — the highest-demand product (481 demand score) — spent <strong>11 days in critical stock</strong> and <strong>zero days at healthy levels</strong>. Historical demand clearly predicted this, yet replenishment failed.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 3. RECOMMENDATIONS ==================== -->
+<div id="recommendations" class="section">
+  <div class="section-title"><span class="num">3</span> Recommendation Irrelevance — Showing the Wrong Products</div>
+  <div class="section-sub">Customers view products that don't convert. The gap between what people SEE and what they BUY reveals a broken discovery engine.</div>
+
+  <div class="chart-row">
+    <div class="chart-box">
+      <h3>👁️ View Share vs Order Share by Category</h3>
+      <canvas id="chartViewOrder" height="280"></canvas>
+      <div class="finding info" style="margin-top:14px">
+        <span class="tag insight">Insight</span>
+        <strong>Home Care</strong> gets 15.5% of views but only 9.0% of orders — a <strong>6.5% gap</strong>. Meanwhile <strong>Staples & Grains</strong> is under-shown (8.3% views) but over-ordered (11.5%). The recommendation engine is pushing low-converting categories.
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>🔄 View-to-Cart Conversion by Product (Worst)</h3>
+      <canvas id="chartLowConvert" height="280"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 4. JOURNEY ==================== -->
+<div id="journey" class="section">
+  <div class="section-title"><span class="num">4</span> The Broken Journey — Where Customers Abandon</div>
+  <div class="section-sub">264 sessions (32.6%) are view-only. 329 sessions add to cart but never order. Only 218 complete a purchase.</div>
+
+  <div class="chart-row">
+    <div class="chart-box">
+      <h3>🗺️ Session Outcomes</h3>
+      <canvas id="chartJourney" height="260"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>🏙️ Conversion Rate by City</h3>
+      <canvas id="chartCity" height="260"></canvas>
+      <div class="finding warn" style="margin-top:14px">
+        <span class="tag warning">Warning</span>
+        <strong>Kolhapur</strong> converts at only <strong>19.0%</strong> vs Aurangabad at <strong>36.9%</strong> — nearly 2× difference. Tier-2 cities with less delivery infrastructure are suffering the most.
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-row" style="margin-top:20px">
+    <div class="chart-box full">
+      <h3>⏱️ Session Duration Analysis</h3>
+      <table class="data-table">
+        <thead><tr><th>Session Type</th><th>Count</th><th>Avg Duration</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--green)">✅ Completed Order</td><td>218</td><td><strong>9.4 min</strong></td><td>Engaged enough to complete</td></tr>
+          <tr><td style="color:var(--amber)">🛒 Cart Abandoned</td><td>329</td><td><strong>6.1 min</strong></td><td>Intent existed but something blocked checkout</td></tr>
+          <tr><td style="color:var(--red)">👁️ View Only</td><td>264</td><td><strong>1.4 min</strong></td><td>Bounced quickly — nothing relevant found</td></tr>
+        </tbody>
+      </table>
+      <div class="finding">
+        <span class="tag critical">Critical</span>
+        View-only sessions last just <strong>1.4 minutes</strong> on average. Customers arrive, see nothing relevant, and leave. This is direct evidence of <strong>recommendation failure</strong> — the products shown on landing don't match customer intent.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 5. TRENDS ==================== -->
+<div id="trends" class="section">
+  <div class="section-title"><span class="num">5</span> Declining Orders & Demand Patterns</div>
+  <div class="section-sub">Orders are trending downward with a -0.212 correlation. Repeat purchase rates vary drastically by segment.</div>
+
+  <div class="chart-row">
+    <div class="chart-box full">
+      <h3>📈 Daily Orders & Revenue Trend (August 2026)</h3>
+      <canvas id="chartTrend" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-row" style="margin-top:20px">
+    <div class="chart-box">
+      <h3>🔁 Repeat Purchase Rate by Segment</h3>
+      <canvas id="chartRepeat" height="260"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>💰 AOV by City</h3>
+      <canvas id="chartAOV" height="260"></canvas>
+      <div class="finding info" style="margin-top:14px">
+        <span class="tag insight">Insight</span>
+        <strong>Mumbai</strong> leads AOV at ₹211 while <strong>Thane</strong> trails at ₹143. High-AOV cities should be prioritized for inventory depth to maximize revenue per delivery.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- wrap -->
+</div><!-- dashboard -->
+
+<script>
+Chart.defaults.color = '#8B8FA3';
+Chart.defaults.borderColor = '#2E3140';
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+// Helper
+function scrollTo(id) {
+  document.querySelector(id).scrollIntoView({behavior:'smooth'});
+}
+
+// 1. Segment Abandonment
+new Chart(document.getElementById('chartSegment'), {
+  type: 'bar',
+  data: {
+    labels: ['Family', 'Home Care', 'Budget', 'Dairy', 'Packaged', 'Snacks', 'Beverages', 'Premium', 'Regular'],
+    datasets: [
+      { label: 'Abandoned', data: [174, 80, 150, 55, 104, 75, 95, 84, 258], backgroundColor: 'rgba(255,90,90,0.7)', borderRadius: 6 },
+      { label: 'Ordered', data: [45, 25, 53, 22, 43, 32, 41, 43, 138], backgroundColor: 'rgba(52,211,153,0.7)', borderRadius: 6 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: { x: { stacked: true }, y: { stacked: true } }
+  }
+});
+
+// 2a. Stock Status
+new Chart(document.getElementById('chartStock'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Low Stock (656)', 'Healthy (439)', 'Critical (17)', 'Out of Stock (4)'],
+    datasets: [{
+      data: [656, 439, 17, 4],
+      backgroundColor: ['#FBBF24', '#34D399', '#FF5A5A', '#8B0000'],
+      borderWidth: 0
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// 2b. Demand vs Stock
+new Chart(document.getElementById('chartDemandStock'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Products',
+      data: [
+        {x: 481, y: 0, r: 20}, {x: 398, y: 0, r: 18}, {x: 299, y: 0, r: 15},
+        {x: 262, y: 0, r: 14}, {x: 221, y: 0, r: 13}, {x: 202, y: 0, r: 12},
+        {x: 179, y: 0, r: 11}, {x: 158, y: 0, r: 10}, {x: 152, y: 0, r: 10},
+        {x: 143, y: 0, r: 9},
+      ],
+      backgroundColor: 'rgba(255,90,90,0.6)',
+      borderColor: '#FF5A5A',
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { title: { display: true, text: 'Demand Score' } },
+      y: { title: { display: true, text: 'Stock Health %' }, min: -5, max: 105 }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+
+// 3a. View vs Order Share
+new Chart(document.getElementById('chartViewOrder'), {
+  type: 'bar',
+  data: {
+    labels: ['Home Care', 'Personal Care', 'Household', 'Snacks', 'Packaged', 'Dairy', 'Beverages', 'Fresh', 'Staples'],
+    datasets: [
+      { label: 'View Share %', data: [15.5, 11.6, 7.7, 11.0, 14.8, 7.2, 12.9, 10.9, 8.3], backgroundColor: 'rgba(108,99,255,0.6)', borderRadius: 6 },
+      { label: 'Order Share %', data: [9.0, 9.3, 7.9, 11.5, 15.4, 7.9, 14.7, 12.9, 11.5], backgroundColor: 'rgba(52,211,153,0.6)', borderRadius: 6 }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } } }
+});
+
+// 3b. Worst converters
+new Chart(document.getElementById('chartLowConvert'), {
+  type: 'bar',
+  data: {
+    labels: ['Tomatoes', 'Laundry Det.', 'Dishwash', 'Green Tea', 'Bath Soap', 'Toilet Cleaner', 'Paper Towels', 'Pasta', 'Mixed Nuts', 'Onions'],
+    datasets: [{
+      label: 'View→Cart %',
+      data: [20.5, 21.5, 26.0, 27.9, 29.5, 30.0, 32.2, 34.2, 34.4, 34.9],
+      backgroundColor: function(ctx) {
+        return ctx.raw < 25 ? 'rgba(255,90,90,0.7)' : ctx.raw < 32 ? 'rgba(251,191,36,0.7)' : 'rgba(108,99,255,0.5)';
+      },
+      borderRadius: 6
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { x: { title: { display: true, text: 'View-to-Cart Conversion %' } } }
+  }
+});
+
+// 4a. Journey
+new Chart(document.getElementById('chartJourney'), {
+  type: 'doughnut',
+  data: {
+    labels: ['View Only (264)', 'Cart Abandoned (329)', 'Order Placed (218)'],
+    datasets: [{
+      data: [264, 329, 218],
+      backgroundColor: ['#FF5A5A', '#FBBF24', '#34D399'],
+      borderWidth: 0
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// 4b. City conversion
+new Chart(document.getElementById('chartCity'), {
+  type: 'bar',
+  data: {
+    labels: ['Kolhapur', 'Navi Mumbai', 'Mumbai', 'Nagpur', 'Pune', 'Thane', 'Nashik', 'Aurangabad'],
+    datasets: [{
+      label: 'Conversion %',
+      data: [19.0, 23.1, 25.2, 26.7, 27.1, 27.4, 28.6, 36.9],
+      backgroundColor: function(ctx) {
+        return ctx.raw < 22 ? 'rgba(255,90,90,0.7)' : ctx.raw > 33 ? 'rgba(52,211,153,0.7)' : 'rgba(108,99,255,0.5)';
+      },
+      borderRadius: 6
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+
+// 5a. Daily trend
+new Chart(document.getElementById('chartTrend'), {
+  type: 'line',
+  data: {
+    labels: Array.from({length:31}, (_,i) => 'Aug ' + (i+1)),
+    datasets: [
+      {
+        label: 'Orders',
+        data: [15,13,6,6,9,6,8,6,11,5,7,11,14,5,15,13,12,3,11,14,8,9,8,7,6,12,6,5,10,7,10],
+        borderColor: '#6C63FF', backgroundColor: 'rgba(108,99,255,0.1)',
+        fill: true, tension: 0.3, pointRadius: 3
+      },
+      {
+        label: 'Revenue (₹100s)',
+        data: [31.8,19.8,10.0,5.4,9.4,13.2,12.2,8.8,24.6,12.2,10.8,17.7,19.1,8.0,35.5,25.0,16.9,9.5,18.5,19.6,22.4,11.9,10.8,6.3,6.5,41.0,8.0,10.6,15.0,9.7,12.9],
+        borderColor: '#34D399', backgroundColor: 'rgba(52,211,153,0.05)',
+        fill: true, tension: 0.3, pointRadius: 3
+      }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } } }
+});
+
+// 5b. Repeat purchase
+new Chart(document.getElementById('chartRepeat'), {
+  type: 'bar',
+  data: {
+    labels: ['Budget', 'Family', 'Premium', 'Regular'],
+    datasets: [
+      { label: 'One-Time', data: [20, 15, 6, 18], backgroundColor: 'rgba(255,90,90,0.6)', borderRadius: 6 },
+      { label: 'Repeat', data: [11, 11, 11, 28], backgroundColor: 'rgba(52,211,153,0.6)', borderRadius: 6 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: { x: { stacked: true }, y: { stacked: true } }
+  }
+});
+
+// 5c. AOV by City
+new Chart(document.getElementById('chartAOV'), {
+  type: 'bar',
+  data: {
+    labels: ['Mumbai', 'Navi Mumbai', 'Nagpur', 'Nashik', 'Kolhapur', 'Aurangabad', 'Pune', 'Thane'],
+    datasets: [{
+      label: 'AOV (₹)',
+      data: [211.2, 200.7, 178.9, 173.3, 172.3, 171.9, 145.4, 142.6],
+      backgroundColor: 'rgba(108,99,255,0.6)',
+      borderRadius: 6
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+</script>
+
+</body>
+</html>

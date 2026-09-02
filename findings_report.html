@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinkt Investigation — Findings Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  @media print {
+    .page { page-break-after: always; }
+    .page:last-child { page-break-after: avoid; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none; }
+  }
+
+  :root {
+    --bg: #0C0E13;
+    --surface: #161921;
+    --surface-2: #1E2130;
+    --border: #282D3E;
+    --text: #E4E5EA;
+    --text-dim: #7C809A;
+    --accent: #6C63FF;
+    --red: #FF5A5A;
+    --green: #34D399;
+    --amber: #FBBF24;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.65;
+  }
+  h1,h2,h3,h4 { font-family: 'Fraunces', serif; letter-spacing: -0.02em; line-height: 1.2; }
+
+  /* Page structure */
+  .page {
+    max-width: 960px; margin: 0 auto;
+    padding: 60px 56px;
+    min-height: 100vh;
+    position: relative;
+  }
+  .page + .page { border-top: 1px solid var(--border); }
+
+  /* Cover */
+  .cover { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
+  .cover .tag {
+    display: inline-block;
+    background: rgba(108,99,255,0.15); color: var(--accent);
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-bottom: 24px;
+    border: 1px solid rgba(108,99,255,0.25);
+  }
+  .cover h1 {
+    font-size: 52px; font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #E4E5EA 0%, #6C63FF 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .cover .subtitle {
+    font-size: 20px; color: var(--text-dim);
+    max-width: 600px; line-height: 1.6;
+    margin-bottom: 48px;
+  }
+  .cover .verdict {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    border-radius: 0 12px 12px 0;
+    padding: 28px 32px;
+    font-size: 17px; line-height: 1.7;
+  }
+  .cover .verdict strong { color: var(--red); }
+  .cover .page-footer {
+    position: absolute; bottom: 40px; left: 56px; right: 56px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  /* Section pages */
+  .page-num {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .page h2 {
+    font-size: 36px; font-weight: 800; margin-bottom: 8px;
+  }
+  .page .lead {
+    font-size: 16px; color: var(--text-dim); margin-bottom: 32px;
+    max-width: 680px;
+  }
+
+  /* Evidence chain */
+  .evidence-chain {
+    position: relative;
+    padding-left: 36px;
+    margin: 24px 0;
+  }
+  .evidence-chain::before {
+    content: '';
+    position: absolute; left: 14px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .evidence-node {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .evidence-node::before {
+    content: '';
+    position: absolute; left: -30px; top: 8px;
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+  }
+  .evidence-node.red::before { border-color: var(--red); }
+  .evidence-node.amber::before { border-color: var(--amber); }
+  .evidence-node.green::before { border-color: var(--green); }
+
+  .evidence-node .step-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .evidence-node .step-label.observe { color: var(--accent); }
+  .evidence-node .step-label.measure { color: var(--amber); }
+  .evidence-node .step-label.impact { color: var(--red); }
+  .evidence-node .step-label.ruled-out { color: var(--green); }
+  .evidence-node .step-label.recommend { color: var(--green); }
+
+  .evidence-node .content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    font-size: 14px;
+  }
+  .evidence-node .content .num {
+    font-family: 'Fraunces', serif;
+    font-size: 28px; font-weight: 800;
+    display: inline-block; margin-right: 4px;
+  }
+  .evidence-node .content .num.red { color: var(--red); }
+  .evidence-node .content .num.amber { color: var(--amber); }
+  .evidence-node .content .num.green { color: var(--green); }
+  .evidence-node .content .num.accent { color: var(--accent); }
+
+  .data-ref {
+    display: inline-block;
+    background: rgba(108,99,255,0.1);
+    color: var(--accent);
+    padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(108,99,255,0.2);
+  }
+  .data-ref:hover { background: rgba(108,99,255,0.25); }
+
+  /* Metrics row */
+  .metrics {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin: 20px 0;
+  }
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .metric .val {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; font-weight: 800;
+  }
+  .metric .val.red { color: var(--red); }
+  .metric .val.amber { color: var(--amber); }
+  .metric .val.green { color: var(--green); }
+  .metric .val.accent { color: var(--accent); }
+  .metric .lbl { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  /* Ruled out */
+  .ruled-out-box {
+    background: rgba(52,211,153,0.06);
+    border: 1px solid rgba(52,211,153,0.15);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  .ruled-out-box h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--green); font-size: 14px; margin-bottom: 10px;
+  }
+  .ruled-out-box ul {
+    list-style: none; padding: 0;
+  }
+  .ruled-out-box li {
+    font-size: 14px; padding: 6px 0;
+    padding-left: 20px; position: relative;
+  }
+  .ruled-out-box li::before {
+    content: '✕'; position: absolute; left: 0;
+    color: var(--green); font-weight: 700;
+  }
+
+  /* Recommendation box */
+  .rec-box {
+    background: linear-gradient(135deg, rgba(108,99,255,0.08) 0%, rgba(52,211,153,0.08) 100%);
+    border: 1px solid rgba(108,99,255,0.2);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 20px 0;
+  }
+  .rec-box h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--accent); font-size: 15px; font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .rec-box ol {
+    padding-left: 20px;
+  }
+  .rec-box li {
+    font-size: 14px; padding: 6px 0; line-height: 1.6;
+  }
+  .rec-box li strong { color: var(--text); }
+
+  /* Table */
+  .evidence-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; margin: 16px 0;
+  }
+  .evidence-table th {
+    text-align: left; padding: 10px 14px;
+    background: var(--surface-2); color: var(--text-dim);
+    font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.5px; font-size: 11px;
+    border-bottom: 1px solid var(--border);
+  }
+  .evidence-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Print button */
+  .top-nav {
+    position: fixed; top: 16px; right: 24px;
+    display: flex; gap: 10px; z-index: 100;
+  }
+  .nav-btn {
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 18px; font-size: 13px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-btn.primary {
+    background: var(--accent); color: white; border-color: var(--accent);
+  }
+  .nav-btn:hover { transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<div class="top-nav no-print">
+  <a href="dashboard.html" class="nav-btn">📊 Interactive Dashboard</a>
+  <a href="clinkt-ui.html" class="nav-btn">🛒 Storefront Prototype</a>
+  <button class="nav-btn primary" onclick="window.print()">📄 Print to PDF</button>
+</div>
+
+<!-- ==================== PAGE 1: COVER ==================== -->
+<div class="page cover">
+  <div class="tag">Clinkt Case Investigation — Findings Report</div>
+  <h1>Where Clinkt's Revenue Goes to Die</h1>
+  <p class="subtitle">
+    An evidence-driven investigation into why customers arrive with intent,
+    add products to their carts, and then vanish — and what Clinkt must fix to survive.
+  </p>
+
+  <div class="verdict">
+    <strong>Our Verdict:</strong> Clinkt is losing <strong>₹84,857 in abandoned cart revenue</strong> — 1.75× its actual earned revenue — due to three interconnected failures:
+    a <strong>broken recommendation engine</strong> that shows irrelevant products,
+    <strong>chronic inventory mismanagement</strong> that leaves high-demand items understocked, and
+    a <strong>fractured customer journey</strong> where 73.1% of sessions end without a purchase.
+    These are not three separate problems. They are one failure loop that feeds itself.
+  </div>
+
+  <div class="page-footer">
+    <span>Clinkt Case File Investigation</span>
+    <span>Page 1 of 7</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 2: THE FAILURE LOOP ==================== -->
+<div class="page">
+  <div class="page-num">Finding 01</div>
+  <h2>The Failure Loop</h2>
+  <p class="lead">These aren't three problems. They're one loop. Bad recommendations → customers can't find what they want → the wrong products get stocked → customers abandon → repeat.</p>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="val red">70.5%</div>
+      <div class="lbl">Cart Abandonment Rate</div>
+    </div>
+    <div class="metric">
+      <div class="val amber">₹84,857</div>
+      <div class="lbl">Revenue Lost to Abandonment</div>
+    </div>
+    <div class="metric">
+      <div class="val accent">₹48,412</div>
+      <div class="lbl">Actual Revenue Earned</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:32px 0;font-size:14px;color:var(--text-dim)">
+    <div style="display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 36px;text-align:left;line-height:2.2">
+      <span style="color:var(--red);font-weight:700">❶ Bad Recommendations</span> → Customers see irrelevant products (Home Care: 15.5% views, 9.0% orders)<br>
+      &nbsp;&nbsp;&nbsp;↓<br>
+      <span style="color:var(--amber);font-weight:700">❷ Wrong Stock Priorities</span> → High-demand items chronically understocked (60.7% days sub-optimal)<br>
+      &nbsp;&nbsp;&nbsp;↓<br>
+      <span style="color:var(--red);font-weight:700">❸ Customers Abandon</span> → 70.5% of cart items never purchased (666 of 945)<br>
+      &nbsp;&nbsp;&nbsp;↓<br>
+      <span style="color:var(--text-dim);font-weight:700">❹ No Learning</span> → Demand signals ignored → Loop repeats → Orders decline (-21.2%)<br>
+    </div>
+  </div>
+
+  <div class="rec-box">
+    <h4>Why This Matters</h4>
+    <p style="font-size:14px;margin:0">
+      If Clinkt recovered just <strong>half</strong> of its abandoned cart revenue, total revenue would jump from ₹48,412 to <strong>₹90,841</strong> — an <strong>87.6% increase</strong> — without acquiring a single new customer. The customers are already here. They're already interested. Clinkt is simply failing to close.
+    </p>
+  </div>
+</div>
+
+<!-- ==================== PAGE 3: CONVERSION FUNNEL ==================== -->
+<div class="page">
+  <div class="page-num">Finding 02 — Evidence Chain</div>
+  <h2>Customers Disappear at Every Stage</h2>
+  <p class="lead">The conversion funnel leaks at two critical points: View → Cart (65.1% drop) and Cart → Order (70.5% drop).</p>
+
+  <div class="evidence-chain">
+    <div class="evidence-node">
+      <div class="step-label observe">Observation</div>
+      <div class="content">
+        <span class="num accent">2,708</span> product views across <span class="num accent">811</span> sessions in August 2026.
+        Customers are arriving — traffic is not the problem.
+        <br><span class="data-ref">📁 customer_interactions.csv → Interaction_Type = 'View'</span>
+      </div>
+    </div>
+
+    <div class="evidence-node amber">
+      <div class="step-label measure">Measurement</div>
+      <div class="content">
+        Only <span class="num amber">34.9%</span> of views result in an add-to-cart. <span class="num amber">547</span> sessions add items, producing <span class="num amber">945</span> cart additions.
+        <br><span class="data-ref">📁 customer_interactions.csv → Interaction_Type = 'Add_to_Cart'</span>
+      </div>
+    </div>
+
+    <div class="evidence-node red">
+      <div class="step-label impact">Critical Drop</div>
+      <div class="content">
+        Of those 945 cart items, only <span class="num red">279</span> become orders (<span class="num red">29.5%</span>). The other <span class="num red">666</span> items are abandoned — worth <span class="num red">₹84,857</span>.
+        <br><span class="data-ref">📁 orders.csv ↔ customer_interactions.csv (Session_ID + Product_ID join)</span>
+      </div>
+    </div>
+
+    <div class="evidence-node red">
+      <div class="step-label impact">Segment Breakdown</div>
+      <div class="content">
+        <table class="evidence-table">
+          <thead><tr><th>Segment</th><th>Abandoned</th><th>Ordered</th><th>Abandonment Rate</th><th>AOV</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Family</strong></td><td>174</td><td>45</td><td style="color:var(--red)"><strong>79.5%</strong></td><td>₹192.60</td></tr>
+            <tr><td>Budget</td><td>150</td><td>53</td><td style="color:var(--red)">73.9%</td><td>₹151.45</td></tr>
+            <tr><td>Premium</td><td>84</td><td>43</td><td style="color:var(--amber)">66.1%</td><td>₹151.07</td></tr>
+            <tr><td>Regular</td><td>258</td><td>138</td><td style="color:var(--amber)">65.2%</td><td>₹182.77</td></tr>
+          </tbody>
+        </table>
+        <span class="data-ref">📁 exports/6_abandonment_by_segment.xlsx</span>
+      </div>
+    </div>
+
+    <div class="evidence-node green">
+      <div class="step-label ruled-out">Ruled Out: Price</div>
+      <div class="content">
+        Average price of abandoned items: <span class="num green">₹127.41</span> vs ordered items: <span class="num green">₹123.63</span>. The difference is negligible — price is <strong>not</strong> the primary driver of abandonment.
+        <br><span class="data-ref">📁 products.csv → Price | orders.csv → Unit_Price</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 4: INVENTORY ==================== -->
+<div class="page">
+  <div class="page-num">Finding 03 — Evidence Chain</div>
+  <h2>Inventory Is Blind to Demand</h2>
+  <p class="lead">Products customers want most are the ones most likely to be out of stock. Historical purchase data exists to predict demand — it's being ignored.</p>
+
+  <div class="evidence-chain">
+    <div class="evidence-node">
+      <div class="step-label observe">Observation</div>
+      <div class="content">
+        <span class="num red">60.7%</span> of product-days (677 of 1,116) are at sub-optimal stock levels. Only 39.3% of days have healthy stock (Closing_Stock &gt; 15).
+        <br><span class="data-ref">📁 inventory.csv → Stock_Status distribution</span>
+      </div>
+    </div>
+
+    <div class="evidence-node red">
+      <div class="step-label impact">Demand-Stock Mismatch</div>
+      <div class="content">
+        The <strong>highest-demand product</strong> — Instant Noodles 4-Pack (demand score: 481) — spent <span class="num red">11 days</span> in critical stock and <span class="num red">0 days</span> at healthy levels across the entire month.
+        <br><br>
+        <table class="evidence-table">
+          <thead><tr><th>Product</th><th>Demand Score</th><th>Critical Days</th><th>Healthy Days</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Instant Noodles 4-Pack</strong></td><td>481 (highest)</td><td style="color:var(--red)">11</td><td style="color:var(--red)">0</td></tr>
+            <tr><td><strong>Bath Soap 4-Pack</strong></td><td>221</td><td style="color:var(--red)">9</td><td style="color:var(--red)">0</td></tr>
+            <tr><td><strong>Pasta 500 g</strong></td><td>202</td><td style="color:var(--amber)">1</td><td style="color:var(--red)">0</td></tr>
+          </tbody>
+        </table>
+        <span class="data-ref">📁 exports/investigation_2_inventory_vs_demand.xlsx</span>
+      </div>
+    </div>
+
+    <div class="evidence-node amber">
+      <div class="step-label measure">Revenue Lost by Stock Status</div>
+      <div class="content">
+        Abandoned carts broken down by stock status at time of abandonment:
+        <table class="evidence-table">
+          <thead><tr><th>Stock Status</th><th>Abandoned Revenue</th><th>Count</th></tr></thead>
+          <tbody>
+            <tr><td>Low Stock</td><td style="color:var(--amber)">₹52,352</td><td>376</td></tr>
+            <tr><td>Healthy</td><td>₹24,086</td><td>237</td></tr>
+            <tr><td>Critical</td><td style="color:var(--red)">₹7,124</td><td>46</td></tr>
+            <tr><td>Out of Stock</td><td style="color:var(--red)">₹1,295</td><td>7</td></tr>
+          </tbody>
+        </table>
+        <span class="data-ref">📁 exports/12_abandoned_revenue_by_stock.xlsx</span>
+      </div>
+    </div>
+
+    <div class="evidence-node green">
+      <div class="step-label ruled-out">Ruled Out: Overall Supply Shortage</div>
+      <div class="content">
+        Stock isn't universally low — some products like Cola 750ml and Cookies 200g maintain healthy stock for 31/31 days while high-demand items starve. This is a <strong>prioritization failure</strong>, not a supply failure.
+        <br><span class="data-ref">📁 inventory.csv → Product-level Stock_Status breakdown</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 5: RECOMMENDATIONS ==================== -->
+<div class="page">
+  <div class="page-num">Finding 04 — Evidence Chain</div>
+  <h2>The Recommendation Engine Is Broken</h2>
+  <p class="lead">Products being surfaced to customers don't match what they actually want to buy. The View-to-Order gap reveals what's being shown vs what converts.</p>
+
+  <div class="evidence-chain">
+    <div class="evidence-node">
+      <div class="step-label observe">Observation</div>
+      <div class="content">
+        <strong>Home Care</strong> receives <span class="num amber">15.5%</span> of all views but only <span class="num red">9.0%</span> of orders — a <strong>6.5 percentage point gap</strong>. Meanwhile, <strong>Staples &amp; Grains</strong> gets only 8.3% of views but 11.5% of orders.
+        <br><span class="data-ref">📁 exports/investigation_3_recommendation_gap.xlsx</span>
+      </div>
+    </div>
+
+    <div class="evidence-node red">
+      <div class="step-label impact">Worst Converting Products Get Most Views</div>
+      <div class="content">
+        <strong>Laundry Detergent</strong> — 209 views but only 21.5% view-to-cart rate. <strong>Tomatoes</strong> — 78 views, 20.5% conversion. These are being pushed by the platform but customers aren't buying them.
+        <br><br>Meanwhile, products like <strong>Toor Dal 1 kg</strong> convert at high rates but get fewer views — they're being hidden.
+        <br><span class="data-ref">📁 exports/investigation_1_product_funnel.xlsx → View_to_Cart_Rate</span>
+      </div>
+    </div>
+
+    <div class="evidence-node amber">
+      <div class="step-label measure">Session Bounce Evidence</div>
+      <div class="content">
+        <span class="num red">264</span> sessions (32.6%) are <strong>view-only</strong> — the customer browses and leaves without adding anything to cart. Average duration: just <span class="num red">1.4 minutes</span>.
+        <br><br>
+        Compare this to sessions that order: <span class="num green">9.4 minutes</span> average. Customers who find relevant products engage 6.7× longer.
+        <br><span class="data-ref">📁 exports/investigation_4_session_journeys.xlsx</span>
+      </div>
+    </div>
+
+    <div class="evidence-node green">
+      <div class="step-label ruled-out">Ruled Out: Category Mismatch</div>
+      <div class="content">
+        In sessions that DO result in orders, 100% of ordered categories were previously viewed. This means when the right product IS shown, customers DO buy. The problem is that <strong>too many sessions never show the right product</strong>.
+        <br><span class="data-ref">📁 full_investigation.py → Category_Match_Pct analysis</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 6: JOURNEY + TRENDS ==================== -->
+<div class="page">
+  <div class="page-num">Finding 05 — Evidence Chain</div>
+  <h2>The Decline Is Already Happening</h2>
+  <p class="lead">Orders are trending downward. Repeat purchase rates are weak outside the Regular segment. The failure loop is accelerating customer loss.</p>
+
+  <div class="evidence-chain">
+    <div class="evidence-node">
+      <div class="step-label observe">Order Trend</div>
+      <div class="content">
+        Order volume over August shows a <span class="num red">-0.212</span> correlation — a <strong>negative trend</strong>. Revenue correlation: <span class="num red">-0.147</span>. Both orders and revenue are declining week over week.
+        <br><span class="data-ref">📁 exports/investigation_5_daily_trends.xlsx</span>
+      </div>
+    </div>
+
+    <div class="evidence-node amber">
+      <div class="step-label measure">Repeat Purchase Failure</div>
+      <div class="content">
+        <table class="evidence-table">
+          <thead><tr><th>Segment</th><th>Repeat Rate</th><th>Avg Orders</th><th>Avg Spend</th></tr></thead>
+          <tbody>
+            <tr><td>Budget</td><td style="color:var(--red)"><strong>35.5%</strong></td><td>1.7</td><td>₹259</td></tr>
+            <tr><td>Family</td><td style="color:var(--red)"><strong>42.3%</strong></td><td>1.7</td><td>₹333</td></tr>
+            <tr><td>Premium</td><td style="color:var(--green)">64.7%</td><td>2.5</td><td>₹382</td></tr>
+            <tr><td>Regular</td><td style="color:var(--green)">60.9%</td><td>3.0</td><td>₹548</td></tr>
+          </tbody>
+        </table>
+        <strong>Budget</strong> and <strong>Family</strong> segments — making up 53% of customers — have repeat rates below 45%. These customers try Clinkt once and don't come back.
+        <br><span class="data-ref">📁 exports/investigation_5_repeat_purchases.xlsx</span>
+      </div>
+    </div>
+
+    <div class="evidence-node red">
+      <div class="step-label impact">City-Level Disparity</div>
+      <div class="content">
+        <strong>Kolhapur</strong> converts at only <span class="num red">19.0%</span> vs <strong>Aurangabad</strong> at <span class="num green">36.9%</span>. Nearly 2× difference. Tier-2 cities with potentially less inventory depth are underserved.
+        <br><span class="data-ref">📁 exports/investigation_4_session_journeys.xlsx → City groupby</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 7: RECOMMENDATIONS ==================== -->
+<div class="page">
+  <div class="page-num">Recommendations</div>
+  <h2>What Clinkt Should Do</h2>
+  <p class="lead">Three interventions, ordered by expected impact and implementation speed.</p>
+
+  <div class="rec-box" style="border-left:4px solid var(--red);border-color:rgba(255,90,90,0.3)">
+    <h4>🚨 Immediate — Fix Inventory Prioritization (Week 1-2)</h4>
+    <ol>
+      <li><strong>Implement demand-score-based replenishment.</strong> Use View + Cart signals (not just past sales) to predict restock needs. Instant Noodles, Orange Juice, and Bath Soap should never hit critical stock again.</li>
+      <li><strong>Set per-product dynamic stock thresholds.</strong> A "Low Stock" of 10 units for a high-velocity item like Instant Noodles is a stockout in disguise. Thresholds should scale with demand velocity.</li>
+      <li><strong>Prioritize high-AOV cities (Mumbai, Navi Mumbai)</strong> with deeper inventory — they generate the most revenue per order.</li>
+    </ol>
+  </div>
+
+  <div class="rec-box" style="border-left:4px solid var(--amber);border-color:rgba(251,191,36,0.3)">
+    <h4>⚡ Short-Term — Rebuild Recommendations (Week 2-4)</h4>
+    <ol>
+      <li><strong>Reduce Home Care and Personal Care prominence</strong> in recommendations — they get disproportionate views but convert poorly (6.5% and 2.3% view-order gaps).</li>
+      <li><strong>Boost Staples & Grains and Fresh Produce</strong> — these are under-surfaced but over-ordered, proving latent demand.</li>
+      <li><strong>Target Family segment specifically</strong> — they have the worst abandonment (79.5%) but highest AOV (₹192). A dedicated "Family Essentials" recommendation module could recapture significant revenue.</li>
+    </ol>
+  </div>
+
+  <div class="rec-box" style="border-left:4px solid var(--green);border-color:rgba(52,211,153,0.3)">
+    <h4>🔄 Medium-Term — Close the Loop (Month 2-3)</h4>
+    <ol>
+      <li><strong>Cart recovery system</strong> — 329 sessions add to cart but don't order. Even a simple notification system recovering 20% would add ~₹17K/month revenue.</li>
+      <li><strong>Feed cart and view data INTO inventory planning.</strong> If 63 customers added Orange Juice to cart this month, next month's opening stock should reflect that demand — not just units_sold.</li>
+      <li><strong>Segment-specific pricing and bundles</strong> — Budget segment has 35.5% repeat rate. Test basket discounts to pull them back.</li>
+    </ol>
+  </div>
+
+  <div style="margin-top:32px;padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-align:center">
+    <p style="font-size:16px;color:var(--text-dim);margin-bottom:12px">Projected Impact of Recommendations</p>
+    <div class="metrics" style="margin:0">
+      <div class="metric">
+        <div class="val green">+₹42K</div>
+        <div class="lbl">Monthly Revenue Recovery</div>
+      </div>
+      <div class="metric">
+        <div class="val green">-35%</div>
+        <div class="lbl">Abandonment Rate Target</div>
+      </div>
+      <div class="metric">
+        <div class="val green">+87.6%</div>
+        <div class="lbl">Revenue Increase Potential</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer" style="position:relative;margin-top:48px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);display:flex;justify-content:space-between">
+    <span>All data sourced from Clinkt Case File datasets. Analysis code available in repository.</span>
+    <span>Page 7 of 7</span>
+  </div>
+</div>
+
+</body>
+</html>

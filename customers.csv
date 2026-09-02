@@ -1,0 +1,201 @@
+Customer_ID,City,Customer_Segment,Age,Signup_Date
+C0001,Pune,Regular,61,2024-02-22
+C0002,Navi Mumbai,Regular,34,2023-09-06
+C0003,Kolhapur,Family,46,2024-08-21
+C0004,Mumbai,Regular,38,2025-10-15
+C0005,Nagpur,Premium,22,2026-02-04
+C0006,Pune,Regular,51,2026-02-18
+C0007,Pune,Regular,30,2024-03-18
+C0008,Kolhapur,Regular,45,2024-10-25
+C0009,Mumbai,Budget,35,2026-01-08
+C0010,Navi Mumbai,Premium,26,2025-09-22
+C0011,Aurangabad,Regular,23,2026-04-30
+C0012,Navi Mumbai,Budget,37,2026-01-15
+C0013,Nagpur,Family,49,2024-10-30
+C0014,Mumbai,Budget,46,2026-01-27
+C0015,Navi Mumbai,Budget,29,2025-11-08
+C0016,Thane,Budget,21,2023-04-25
+C0017,Thane,Regular,30,2026-04-01
+C0018,Mumbai,Regular,28,2025-07-08
+C0019,Mumbai,Regular,26,2025-07-13
+C0020,Aurangabad,Family,35,2026-01-26
+C0021,Mumbai,Regular,32,2024-07-12
+C0022,Mumbai,Budget,33,2025-03-30
+C0023,Thane,Family,19,2024-12-11
+C0024,Mumbai,Family,22,2026-04-10
+C0025,Kolhapur,Premium,43,2026-07-07
+C0026,Nashik,Budget,31,2024-06-17
+C0027,Thane,Regular,54,2025-04-30
+C0028,Mumbai,Premium,48,2025-10-14
+C0029,Pune,Family,27,2026-06-25
+C0030,Kolhapur,Premium,32,2025-12-18
+C0031,Navi Mumbai,Regular,35,2023-08-12
+C0032,Nagpur,Family,29,2026-04-16
+C0033,Thane,Family,29,2025-05-26
+C0034,Nashik,Budget,43,2025-05-22
+C0035,Pune,Budget,43,2025-06-12
+C0036,Thane,Regular,30,2025-10-03
+C0037,Nagpur,Regular,47,2024-12-22
+C0038,Thane,Family,32,2026-01-19
+C0039,Nashik,Regular,43,2025-06-23
+C0040,Mumbai,Regular,25,2026-07-05
+C0041,Nashik,Regular,30,2025-06-04
+C0042,Thane,Budget,51,2026-07-25
+C0043,Thane,Premium,45,2025-04-20
+C0044,Navi Mumbai,Family,25,2024-09-13
+C0045,Pune,Premium,53,2024-10-11
+C0046,Aurangabad,Family,37,2024-01-17
+C0047,Pune,Budget,42,2025-08-02
+C0048,Nagpur,Family,44,2024-05-26
+C0049,Mumbai,Regular,33,2026-01-19
+C0050,Nashik,Regular,44,2026-03-16
+C0051,Nagpur,Premium,31,2025-11-16
+C0052,Pune,Regular,65,2025-01-16
+C0053,Pune,Regular,52,2025-10-10
+C0054,Navi Mumbai,Regular,52,2024-01-14
+C0055,Pune,Family,56,2025-02-01
+C0056,Thane,Regular,26,2025-12-20
+C0057,Thane,Premium,37,2026-01-09
+C0058,Navi Mumbai,Budget,49,2025-01-10
+C0059,Mumbai,Regular,36,2025-06-06
+C0060,Nashik,Family,34,2025-01-28
+C0061,Nashik,Family,24,2023-02-28
+C0062,Nashik,Regular,26,2025-03-08
+C0063,Nashik,Premium,49,2026-04-29
+C0064,Pune,Family,26,2023-09-04
+C0065,Thane,Family,45,2024-11-12
+C0066,Pune,Regular,18,2024-01-29
+C0067,Thane,Regular,34,2024-04-18
+C0068,Thane,Family,20,2025-12-09
+C0069,Nashik,Budget,38,2025-07-23
+C0070,Aurangabad,Regular,29,2026-07-06
+C0071,Kolhapur,Regular,36,2026-04-28
+C0072,Nagpur,Regular,29,2026-06-21
+C0073,Aurangabad,Regular,30,2024-08-20
+C0074,Mumbai,Family,35,2026-03-27
+C0075,Nashik,Budget,24,2024-09-06
+C0076,Kolhapur,Family,43,2026-07-03
+C0077,Kolhapur,Regular,49,2024-01-28
+C0078,Thane,Regular,56,2025-08-15
+C0079,Mumbai,Budget,34,2024-07-21
+C0080,Nashik,Regular,59,2025-05-08
+C0081,Thane,Family,25,2025-06-25
+C0082,Thane,Regular,65,2025-08-11
+C0083,Nagpur,Family,24,2026-01-28
+C0084,Mumbai,Regular,32,2025-06-08
+C0085,Aurangabad,Budget,27,2026-05-15
+C0086,Nagpur,Budget,49,2026-07-07
+C0087,Aurangabad,Budget,30,2026-01-25
+C0088,Kolhapur,Regular,64,2025-04-07
+C0089,Aurangabad,Budget,25,2026-07-09
+C0090,Mumbai,Regular,58,2026-07-07
+C0091,Navi Mumbai,Regular,28,2024-03-08
+C0092,Navi Mumbai,Premium,23,2026-07-15
+C0093,Navi Mumbai,Budget,36,2024-11-06
+C0094,Nagpur,Regular,21,2026-01-10
+C0095,Kolhapur,Regular,31,2024-11-21
+C0096,Mumbai,Budget,37,2025-03-30
+C0097,Nashik,Regular,18,2024-03-03
+C0098,Kolhapur,Regular,31,2025-12-06
+C0099,Mumbai,Regular,24,2025-05-30
+C0100,Kolhapur,Budget,26,2025-12-21
+C0101,Mumbai,Regular,57,2023-07-29
+C0102,Pune,Family,31,2024-07-25
+C0103,Thane,Premium,22,2025-08-28
+C0104,Aurangabad,Family,47,2026-07-18
+C0105,Aurangabad,Budget,33,2023-05-01
+C0106,Mumbai,Regular,35,2024-08-19
+C0107,Mumbai,Regular,34,2026-07-19
+C0108,Kolhapur,Family,35,2026-07-26
+C0109,Mumbai,Family,43,2025-01-10
+C0110,Aurangabad,Regular,28,2025-05-16
+C0111,Nagpur,Family,41,2026-01-19
+C0112,Aurangabad,Regular,37,2025-01-11
+C0113,Pune,Family,34,2026-02-04
+C0114,Aurangabad,Regular,22,2026-07-12
+C0115,Kolhapur,Regular,29,2025-07-29
+C0116,Mumbai,Regular,37,2025-05-14
+C0117,Pune,Family,18,2025-02-18
+C0118,Nagpur,Family,20,2025-04-08
+C0119,Aurangabad,Budget,31,2024-06-07
+C0120,Nashik,Regular,23,2024-12-14
+C0121,Thane,Budget,42,2025-09-24
+C0122,Thane,Budget,19,2025-09-03
+C0123,Pune,Family,49,2025-12-01
+C0124,Mumbai,Premium,26,2026-07-31
+C0125,Nashik,Premium,54,2024-12-07
+C0126,Nashik,Regular,58,2026-07-29
+C0127,Nagpur,Family,40,2025-07-07
+C0128,Nagpur,Family,38,2026-07-03
+C0129,Nashik,Family,18,2024-08-30
+C0130,Pune,Premium,41,2025-04-01
+C0131,Nagpur,Family,30,2025-03-17
+C0132,Pune,Regular,25,2025-08-02
+C0133,Navi Mumbai,Budget,39,2026-01-09
+C0134,Mumbai,Premium,21,2023-07-31
+C0135,Navi Mumbai,Budget,30,2025-12-23
+C0136,Nagpur,Premium,36,2024-04-11
+C0137,Navi Mumbai,Family,49,2024-12-02
+C0138,Pune,Premium,28,2026-02-20
+C0139,Navi Mumbai,Regular,24,2026-07-10
+C0140,Nashik,Regular,26,2025-04-03
+C0141,Pune,Premium,19,2026-01-08
+C0142,Pune,Regular,52,2026-06-02
+C0143,Navi Mumbai,Family,58,2025-06-28
+C0144,Thane,Budget,35,2025-02-25
+C0145,Pune,Family,19,2024-11-07
+C0146,Navi Mumbai,Budget,26,2026-06-29
+C0147,Mumbai,Regular,52,2026-04-17
+C0148,Navi Mumbai,Regular,29,2023-06-08
+C0149,Nagpur,Regular,26,2025-08-13
+C0150,Pune,Budget,43,2026-06-13
+C0151,Pune,Regular,26,2025-07-12
+C0152,Thane,Premium,32,2024-10-22
+C0153,Nagpur,Family,34,2025-04-16
+C0154,Aurangabad,Budget,47,2026-07-27
+C0155,Navi Mumbai,Regular,38,2024-04-17
+C0156,Thane,Regular,44,2026-02-21
+C0157,Nagpur,Regular,37,2026-02-19
+C0158,Nashik,Regular,25,2025-01-23
+C0159,Aurangabad,Budget,22,2024-07-12
+C0160,Mumbai,Regular,49,2025-05-11
+C0161,Kolhapur,Regular,28,2025-10-20
+C0162,Thane,Budget,36,2024-09-02
+C0163,Pune,Budget,30,2026-04-05
+C0164,Nagpur,Premium,64,2024-02-01
+C0165,Thane,Family,23,2025-09-20
+C0166,Nashik,Family,29,2025-08-19
+C0167,Kolhapur,Family,30,2026-07-31
+C0168,Nagpur,Regular,27,2024-03-03
+C0169,Kolhapur,Budget,25,2026-01-08
+C0170,Nagpur,Premium,59,2024-09-19
+C0171,Nashik,Regular,47,2025-06-26
+C0172,Nashik,Regular,27,2025-04-02
+C0173,Pune,Family,26,2026-07-14
+C0174,Kolhapur,Premium,45,2024-07-03
+C0175,Mumbai,Family,36,2025-06-11
+C0176,Thane,Budget,52,2025-05-08
+C0177,Mumbai,Regular,35,2025-01-29
+C0178,Pune,Family,23,2024-05-18
+C0179,Pune,Regular,24,2026-05-03
+C0180,Navi Mumbai,Family,35,2024-02-05
+C0181,Mumbai,Budget,46,2024-11-08
+C0182,Mumbai,Premium,18,2025-07-22
+C0183,Navi Mumbai,Family,39,2023-03-30
+C0184,Aurangabad,Family,31,2026-05-11
+C0185,Pune,Budget,35,2026-06-26
+C0186,Mumbai,Budget,27,2025-06-20
+C0187,Aurangabad,Regular,52,2025-12-01
+C0188,Thane,Regular,27,2024-11-06
+C0189,Mumbai,Budget,45,2026-04-18
+C0190,Aurangabad,Regular,40,2024-04-08
+C0191,Kolhapur,Family,58,2024-07-21
+C0192,Navi Mumbai,Family,23,2025-04-04
+C0193,Pune,Budget,41,2025-01-20
+C0194,Mumbai,Premium,26,2024-07-17
+C0195,Navi Mumbai,Budget,31,2024-01-27
+C0196,Navi Mumbai,Budget,25,2026-01-02
+C0197,Navi Mumbai,Regular,30,2025-09-02
+C0198,Kolhapur,Regular,20,2024-09-13
+C0199,Mumbai,Regular,58,2023-11-04
+C0200,Aurangabad,Budget,18,2025-04-03

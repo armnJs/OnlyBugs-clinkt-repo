@@ -1,0 +1,83 @@
+# Clinkt Hackathon — What's Done vs What's Left
+
+## ✅ What You Have
+| Item | Status |
+|------|--------|
+| Frontend UI/Dashboard | ✅ Done |
+| Data cleaning & derived datasets | ✅ Done (12 Excel exports) |
+| Analysis scripts | ✅ Done (10 scripts) |
+
+---
+
+## 🔴 What You Still Need (in priority order)
+
+### 1. 🗞️ THE NEWSPAPER ARTICLE — Read It!
+> The printed newspaper is your **case brief**. It tells you the angle/story.
+> Your entire investigation should connect the data findings BACK to what the newspaper describes.
+> **Do you have a photo of it or remember what it says?** I need this to frame everything correctly.
+
+---
+
+### 2. 📊 FINDINGS REPORT (PDF/Slides) — **15 pts Core + 10 pts Innovation**
+This is the **biggest scoring item**. The judges want:
+
+**Structure (start with your conclusion!):**
+1. **What happened** — The core issue (e.g., "Clinkt is losing ₹84,857 in revenue from cart abandonment — 70% of carts are abandoned, driven by chronic stock-outs and the Family segment")
+2. **Evidence chain** — Connect the dots:
+   - 60.7% of product-days are in sub-optimal stock
+   - Family segment has 79.5% abandonment (worst)
+   - Instant Noodles & Bath Soap are critically understocked
+   - Abandoned revenue (₹84.8K) > Ordered revenue (₹48.4K)
+3. **What you ruled out** — Show you tested alternatives (e.g., "Is it a price issue? No — avg abandoned price ₹127 ≈ avg ordered price ₹124")
+4. **Business impact** — Quantified: ₹84,857 lost, 666 abandoned carts, 3 products chronically out of stock
+5. **Recommendation** — What Clinkt should DO about it
+
+---
+
+### 3. 📈 DATA VISUALIZATIONS — **10 pts Innovation + 10 pts UI/UX**
+Your dashboard needs **charts** showing:
+- [ ] Cart abandonment funnel (945 add-to-cart → 279 orders)
+- [ ] Abandonment rate by category (bar chart)
+- [ ] Abandonment rate by segment (bar chart — highlight Family)
+- [ ] Stock status distribution over time (stacked area)
+- [ ] AOV by city (bar chart — Mumbai vs Thane gap)
+- [ ] Revenue: Ordered vs Abandoned (comparison)
+- [ ] Top 10 most abandoned products vs most ordered
+
+---
+
+### 4. 📁 REPO STRUCTURE & README — **10 pts Code Quality**
+Your repo needs to be clean and professional:
+```
+clinkt-repo/
+├── README.md              ← Proper README (template below)
+├── report/
+│   └── findings.pdf       ← Your investigation report
+├── analysis/
+│   └── run_all.py         ← Analysis scripts
+├── cleaned data/exports/  ← Derived datasets
+├── dashboard/             ← Frontend code
+└── .gitignore
+```
+
+---
+
+### 5. 🎤 LIVE PITCH PREP — **5 pts Presentation**
+- 2-3 minute pitch: "Here's what we found, here's the evidence, here's what Clinkt should do"
+- Lead with the conclusion, NOT "first we cleaned the data..."
+- Show the dashboard live
+
+---
+
+## ⚡ Suggested Next Steps (in order)
+
+1. **Tell me what the newspaper article says** — this frames the whole investigation
+2. **I'll build the visualizations** into your dashboard
+3. **I'll create the findings report** (slides/PDF)
+4. **I'll clean up the README** and repo structure
+5. You prep the pitch
+
+> [!IMPORTANT]
+> The judges explicitly say: *"Don't tell us what the data says. Tell us what happened, why it happened, and how you know."*
+> 
+> Your report needs a **narrative**, not just numbers.

@@ -1,0 +1,2 @@
+print("Most abandoned products:\n", abandoned.groupby('Product_Name').size().sort_values(ascending=False).head(10))
+print("\nMost ordered products:\n", orders.merge(products, on='Product_ID').groupby('Product_Name').size().sort_values(ascending=False).head(10))

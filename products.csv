@@ -1,0 +1,37 @@
+Product_ID,Product_Name,Category,Price
+P001,Toned Milk 1 L,Dairy & Breakfast,64
+P002,Paneer 200 g,Dairy & Breakfast,85
+P003,Curd 400 g,Dairy & Breakfast,52
+P004,Butter 100 g,Dairy & Breakfast,62
+P005,Basmati Rice 5 kg,Staples & Grains,449
+P006,Wheat Flour 5 kg,Staples & Grains,285
+P007,Toor Dal 1 kg,Staples & Grains,165
+P008,Sugar 1 kg,Staples & Grains,52
+P009,Bananas 1 kg,Fresh Produce,55
+P010,Tomatoes 1 kg,Fresh Produce,48
+P011,Onions 1 kg,Fresh Produce,42
+P012,Potatoes 1 kg,Fresh Produce,38
+P013,Instant Noodles 4-Pack,Packaged Foods,149
+P014,Breakfast Cereal 500 g,Packaged Foods,285
+P015,Pasta 500 g,Packaged Foods,95
+P016,Tomato Ketchup 500 g,Packaged Foods,125
+P017,Orange Juice 1 L,Beverages,115
+P018,Cola 750 ml,Beverages,52
+P019,Mineral Water 1 L,Beverages,24
+P020,Green Tea 25 Bags,Beverages,145
+P021,Potato Chips 100 g,Snacks & Confectionery,35
+P022,Mixed Nuts 200 g,Snacks & Confectionery,225
+P023,Cookies 200 g,Snacks & Confectionery,89
+P024,Chocolate Bar 100 g,Snacks & Confectionery,110
+P025,Dishwash Liquid 500 ml,Home Care,89
+P026,Laundry Detergent 1 kg,Home Care,165
+P027,Floor Cleaner 1 L,Home Care,145
+P028,Paper Towels 6-Roll,Home Care,135
+P029,Shampoo 340 ml,Personal Care,299
+P030,Bath Soap 4-Pack,Personal Care,185
+P031,Toothpaste 150 g,Personal Care,96
+P032,Face Wash 100 ml,Personal Care,225
+P033,Toilet Cleaner 500 ml,Household Essentials,99
+P034,Garbage Bags 30-Pack,Household Essentials,120
+P035,Aluminium Foil 9 m,Household Essentials,85
+P036,Kitchen Sponges 3-Pack,Household Essentials,65

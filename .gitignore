@@ -1,0 +1,11 @@
+# Excel lock files
+~$*
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
