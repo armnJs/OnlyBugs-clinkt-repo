@@ -17,10 +17,12 @@ Clinkt is hemorrhaging revenue through a **triple failure**: a broken recommenda
 
 ## How to View Our Work
 
-### Report / Dashboard & Solution Engine
+### Presentation Deck & Executive Reports
+- **Pitch Deck (PowerPoint PPTX)**: [`presentation.pptx`](presentation.pptx) — Professional 16:9 widescreen presentation deck with speaker notes and live pitch breakdown.
+- **Interactive Slide Deck (Web App)**: [`presentation.html`](presentation.html) — Live browser-based slide deck with arrow key navigation, full screen mode, and speaker prompts.
 - **Findings Report (PDF)**: [`findings_report.pdf`](findings_report.pdf) — Complete 7-page executive report with linked evidence chains, ruled-out hypotheses, and financial recovery models.
 - **Interactive Investigation Dashboard & Solution Simulator**: [`dashboard.html`](dashboard.html) — Live interactive Chart.js analytics dashboard with real-time **Revenue Recovery Simulator**, Dynamic Replenishment Table, and Recommendation Re-Weighting Matrix.
-- **Storefront Prototype UI**: [`clinkt-ui.html`](clinkt-ui.html) — Customer-facing e-commerce storefront prototype.
+- **Storefront Prototype UI**: [`clinkt-ui.html`](clinkt-ui.html) — Customer-facing e-commerce storefront prototype with integrated cart and dark mode.
 
 ### Code & Solution Engine
 - **Solution Engine & Optimization Model**: [`cleaned data/solution_engine.py`](cleaned%20data/solution_engine.py) — calculates dynamic reorder points (ROP), safety stocks, and category recommendation weights.
