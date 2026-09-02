@@ -17,6 +17,31 @@
 
 ---
 
+## The 3 pillar of our Solution
+                       ┌────────────────────────────────────────────────────────┐
+                       │               CLINKT SOLUTION ENGINE                   │
+                       └────────────────────────────────────────────────────────┘
+                                 │                            │
+            ┌────────────────────┴───────────┐   ┌────────────┴──────────────────────┐
+            ▼                                │   ▼                                   ▼
+┌───────────────────────────────┐            │ ┌───────────────────────────┐ ┌───────────────────────────┐
+│ 1. Dynamic Demand-Signal      │            │ │ 2. Recommendation Engine  │ │ 3. Cart Recovery & Family │
+│    Replenishment Model        │            │ │    Re-Weighting Matrix    │ │    Bundle Engine          │
+│                               │            │ │                           │ │                           │
+│ • Uses (Views + 2*Carts)      │            │ │ • Suppress Home Care      │ │ • Dynamic trigger on      │
+│ • Safety buffer: 3-day lead   │            │ │   from 15.5% to 9.0%      │ │   666 abandoned carts     │
+│ • Instant Noodles stockout    │            │ │ • Boost Staples +66%      │ │ • Family segment recovery │
+│   drops from 11 days to 0     │            │ │ • Fresh Produce +42%      │ │   targets <25% drop       │
+└───────────────────────────────┘            │ └───────────────────────────┘ └───────────────────────────┘
+                                             │
+                                             ▼
+                       ┌───────────────────────────────────────────┐
+                       │   LIVE REVENUE SIMULATOR (IN DASHBOARD)   │
+                       │   Current: ₹48,412  ──►  New: ₹80,997     │
+                       │             (+67.3% - +87.6% ROI)         │
+                       └───────────────────────────────────────────┘
+
+
 ## 🔗 The 5-Node Chain of Evidence
 
 ```
