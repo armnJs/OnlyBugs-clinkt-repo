@@ -1,4 +1,4 @@
-# Team — Clinkt Investigation
+# Team OnlyBugs — Clinkt Investigation
 
 ## Summary
 
@@ -51,4 +51,4 @@ python "cleaned data/export_data.py"
 ```
 
 ## Team
-[Your Names Here]
+Team OnlyBugs
