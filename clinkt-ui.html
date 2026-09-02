@@ -1,804 +1,767 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clinkt — Everything, sold here.</title>
+<title>Clinkt — Storefront &amp; Smart Cart</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#1F2A28;
-    --ink-soft:#3B4A46;
-    --paper:#ECE3D0;
-    --paper-dark:#DED2B8;
-    --card:#F5EFE0;
-    --amber:#E0A238;
-    --amber-deep:#B87F1F;
-    --red:#BD4438;
-    --moss:#57705A;
-    --line:#B8AA8A;
-    --radius:10px;
+  :root {
+    --ink: #1F2A28;
+    --ink-soft: #3B4A46;
+    --paper: #ECE3D0;
+    --paper-dark: #DED2B8;
+    --card: #F5EFE0;
+    --amber: #E0A238;
+    --amber-deep: #B87F1F;
+    --red: #BD4438;
+    --green: #2D8A4E;
+    --green-light: #E8F5E9;
+    --moss: #57705A;
+    --line: #B8AA8A;
+    --radius: 10px;
   }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{
-    font-family:'Fraunces',serif;
-    font-weight:700;
-    margin:0;
-    letter-spacing:-0.01em;
-  }
-  a{color:inherit;text-decoration:none;}
-  button{font-family:inherit;cursor:pointer;}
-  img,svg{display:block;}
-
-  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
-
-  /* ---------- utility strip ---------- */
-  .utility{
-    background:var(--ink);
-    color:var(--paper);
-    font-size:13px;
-  }
-  .utility .wrap{
-    display:flex;justify-content:space-between;align-items:center;
-    padding-top:9px;padding-bottom:9px;
-    gap:16px;
-    flex-wrap:wrap;
-  }
-  .utility span{opacity:.85;}
-  .utility .links{display:flex;gap:20px;}
-
-  /* ---------- header ---------- */
-  header.site{
-    background:var(--paper);
-    border-bottom:2px solid var(--ink);
-    position:sticky;top:0;z-index:30;
-  }
-  .header-row{
-    display:flex;align-items:center;gap:28px;
-    padding:18px 0;
-  }
-  .logo{
-    font-size:28px;
-    font-weight:800;
-    display:flex;align-items:center;gap:8px;
-    flex-shrink:0;
-  }
-  .logo .dot{
-    width:9px;height:9px;border-radius:50%;
-    background:var(--red);
-    display:inline-block;
-    margin-top:2px;
-  }
-  .search{
-    flex:1;
-    display:flex;
-    align-items:center;
-    border:1.5px solid var(--ink);
-    border-radius:999px;
-    background:var(--card);
-    padding:9px 8px 9px 18px;
-    gap:10px;
-    max-width:560px;
-  }
-  .search input{
-    border:none;background:none;outline:none;
-    font-family:'Inter',sans-serif;font-size:14.5px;
-    flex:1;color:var(--ink);
-  }
-  .search input::placeholder{color:var(--ink-soft);opacity:.65;}
-  .search button{
-    background:var(--ink);color:var(--paper);
-    border:none;border-radius:999px;
-    width:34px;height:34px;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-  }
-  .header-actions{
-    display:flex;align-items:center;gap:22px;
-    margin-left:auto;
-    flex-shrink:0;
-  }
-  .icon-btn{
-    position:relative;
-    display:flex;flex-direction:column;align-items:center;gap:3px;
-    font-size:11.5px;color:var(--ink-soft);
-    background:none;border:none;
-  }
-  .icon-btn svg{stroke:var(--ink);}
-  .badge{
-    position:absolute;top:-6px;right:-9px;
-    background:var(--red);color:var(--paper);
-    font-size:10px;font-weight:700;
-    border-radius:999px;
-    min-width:16px;height:16px;
-    display:flex;align-items:center;justify-content:center;
-    padding:0 3px;
+  [data-theme="dark"] {
+    --ink: #E8E6E1;
+    --ink-soft: #B8B5AE;
+    --paper: #1A1D1C;
+    --paper-dark: #2A2E2D;
+    --card: #242826;
+    --amber: #E0A238;
+    --amber-deep: #F4B84A;
+    --red: #E05548;
+    --green: #4CAF50;
+    --green-light: #1E3B2A;
+    --moss: #7A9B7E;
+    --line: #3D4341;
   }
 
-  /* ---------- category tag nav ---------- */
-  .tagnav{
-    border-bottom:1px dashed var(--line);
-    background:var(--paper);
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
-  .tagnav .wrap{
-    display:flex;gap:12px;
-    overflow-x:auto;
-    padding-top:12px;padding-bottom:12px;
-    scrollbar-width:none;
-  }
-  .tagnav .wrap::-webkit-scrollbar{display:none;}
-  .tag-chip{
-    flex-shrink:0;
-    display:flex;align-items:center;gap:6px;
-    padding:7px 16px 7px 14px;
-    background:var(--card);
-    border:1px solid var(--ink);
-    border-radius:0 8px 8px 0;
-    font-size:13.5px;
-    font-weight:500;
-    position:relative;
-  }
-  .tag-chip::before{
-    content:"";
-    position:absolute;left:-1px;top:50%;
-    transform:translateY(-50%);
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--paper);
-    border:1px solid var(--ink);
-  }
-  .tag-chip:hover{background:var(--amber);}
+  h1,h2,h3,h4 { font-family: 'Fraunces', serif; font-weight: 700; letter-spacing: -0.01em; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-  /* ---------- hero ---------- */
-  .hero{
-    padding:64px 0 76px;
-    overflow:hidden;
-  }
-  .hero .wrap{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:40px;
-    align-items:center;
-  }
-  .hero-copy p.eyebrow{
-    font-size:14.5px;
-    color:var(--ink-soft);
-    margin:0 0 14px;
-  }
-  .hero-copy h1{
-    font-size:56px;
-    line-height:1.03;
-    margin-bottom:20px;
-  }
-  .hero-copy h1 em{
-    font-style:italic;
-    color:var(--red);
-  }
-  .hero-copy p.sub{
-    font-size:17px;
-    color:var(--ink-soft);
-    max-width:420px;
-    line-height:1.55;
-    margin-bottom:30px;
-  }
-  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
-  .btn-primary{
-    background:var(--ink);color:var(--paper);
-    border:none;border-radius:8px;
-    padding:14px 26px;
-    font-size:15px;font-weight:600;
-  }
-  .btn-secondary{
-    background:none;color:var(--ink);
-    border:1.5px solid var(--ink);
-    border-radius:8px;
-    padding:13px 24px;
-    font-size:15px;font-weight:600;
-  }
-  .btn-primary:hover{background:var(--ink-soft);}
-  .btn-secondary:hover{background:var(--card);}
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; width: 100%; }
 
-  .pinboard{
-    position:relative;
-    height:420px;
+  /* Theme Toggle Floating Button */
+  .theme-toggle {
+    position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+    background: var(--card); border: 2px solid var(--ink);
+    border-radius: 50%; width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    transition: all 0.25s ease;
   }
-  .pin-tag{
-    position:absolute;
-    background:var(--card);
-    border:1.5px solid var(--ink);
-    border-radius:6px;
-    padding:14px 16px 16px;
-    width:150px;
-    box-shadow:3px 4px 0 rgba(31,42,40,0.12);
-    animation:settle .7s ease both;
-  }
-  .pin-tag::before{
-    content:"";
-    position:absolute;top:-6px;left:16px;
-    width:12px;height:12px;
-    border-radius:50%;
-    background:var(--amber);
-    border:1.5px solid var(--ink);
-  }
-  .pin-tag .icon-box{
-    width:100%;height:64px;
-    border-radius:4px;
-    background:var(--paper-dark);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:10px;
-    background-image:radial-gradient(circle, rgba(31,42,40,.14) 1px, transparent 1px);
-    background-size:9px 9px;
-  }
-  .pin-tag .name{font-size:12.5px;font-weight:600;margin-bottom:3px;}
-  .pin-tag .price{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--red);}
+  .theme-toggle:hover { transform: scale(1.1); }
+  .theme-toggle svg { width: 22px; height: 22px; stroke: var(--ink); fill: none; stroke-width: 2; }
+  [data-theme="dark"] .theme-toggle .sun-icon { display: none; }
+  [data-theme="light"] .theme-toggle .moon-icon { display: none; }
 
-  .p1{top:0;left:20px;transform:rotate(-6deg);animation-delay:.05s;}
-  .p2{top:36px;left:210px;transform:rotate(4deg);animation-delay:.15s;}
-  .p3{top:220px;left:8px;transform:rotate(3deg);animation-delay:.25s;}
-  .p4{top:190px;left:200px;transform:rotate(-4deg);animation-delay:.35s;}
+  /* Toast Notification */
+  .toast {
+    position: fixed; top: 20px; right: 20px; z-index: 2000;
+    background: var(--ink); color: var(--paper);
+    padding: 12px 22px; border-radius: 8px;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 4px 4px 0 var(--amber);
+    display: flex; align-items: center; gap: 10px;
+    transform: translateX(200%);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .toast.show { transform: translateX(0); }
 
-  @keyframes settle{
-    from{opacity:0;transform:translateY(-18px) rotate(0deg);}
-    to{opacity:1;}
+  /* Utility bar */
+  .utility {
+    background: var(--ink); color: var(--paper); font-size: 13px;
+    padding: 8px 0;
+  }
+  .utility .wrap {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .utility span { opacity: 0.85; }
+  .utility .links { display: flex; gap: 18px; }
+  .utility .links a:hover { text-decoration: underline; }
+
+  /* Header */
+  header.site {
+    background: var(--paper);
+    border-bottom: 2px solid var(--ink);
+    position: sticky; top: 0; z-index: 100;
+    transition: background-color 0.3s ease;
+  }
+  .header-row {
+    display: flex; align-items: center; gap: 20px; padding: 14px 0;
+  }
+  .logo {
+    font-size: 28px; font-weight: 800; display: flex; align-items: center; gap: 8px;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .logo .dot {
+    width: 9px; height: 9px; border-radius: 50%; background: var(--red);
+  }
+  .search-box {
+    flex: 1; max-width: 440px; position: relative;
+  }
+  .search-box input {
+    width: 100%; padding: 10px 16px 10px 38px;
+    background: var(--card); border: 1.5px solid var(--line);
+    border-radius: 20px; font-size: 13.5px; color: var(--ink);
+    outline: none; transition: border-color 0.2s;
+  }
+  .search-box input:focus { border-color: var(--ink); }
+  .search-box svg {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px; stroke: var(--ink-soft); fill: none; stroke-width: 2;
   }
 
-  /* ---------- deals strip ---------- */
-  .deals{
-    background:var(--ink);
-    color:var(--paper);
-    padding:36px 0;
+  /* Navigation tabs */
+  .nav-pills { display: flex; gap: 8px; }
+  .nav-pill {
+    padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    border: 1px solid transparent; cursor: pointer; transition: all 0.2s;
+    color: var(--ink);
   }
-  .deals .heading{
-    display:flex;align-items:baseline;justify-content:space-between;
-    margin-bottom:22px;
-    flex-wrap:wrap;gap:10px;
-  }
-  .deals h2{color:var(--paper);font-size:26px;}
-  .deals .heading p{color:var(--paper);opacity:.65;font-size:14px;margin:0;}
-  .deal-row{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:16px;
-  }
-  .deal-card{
-    background:var(--paper);
-    color:var(--ink);
-    border-radius:8px;
-    padding:16px;
-    position:relative;
-  }
-  .deal-card .stamp{
-    position:absolute;top:-10px;right:14px;
-    background:var(--red);
-    color:var(--paper);
-    font-size:12px;font-weight:700;
-    padding:5px 10px;
-    border-radius:4px;
-    transform:rotate(4deg);
-  }
-  .deal-card .icon-box{
-    width:100%;height:88px;
-    border-radius:6px;
-    background:var(--paper-dark);
-    margin-bottom:12px;
-    display:flex;align-items:center;justify-content:center;
-    background-image:radial-gradient(circle, rgba(31,42,40,.14) 1px, transparent 1px);
-    background-size:9px 9px;
-  }
-  .deal-card .name{font-size:14px;font-weight:600;margin-bottom:6px;}
-  .deal-card .price-row{display:flex;align-items:baseline;gap:8px;}
-  .deal-card .price{font-family:'Fraunces',serif;font-weight:700;font-size:18px;color:var(--red);}
-  .deal-card .old{font-size:13px;color:var(--ink-soft);text-decoration:line-through;}
+  .nav-pill.active { background: var(--ink); color: var(--paper); }
+  .nav-pill:hover:not(.active) { border-color: var(--line); }
 
-  /* ---------- category grid ---------- */
-  .categories{padding:68px 0 20px;}
-  .section-head{
-    display:flex;justify-content:space-between;align-items:baseline;
-    margin-bottom:30px;flex-wrap:wrap;gap:10px;
+  .header-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+  .cart-btn {
+    background: var(--card); border: 1.5px solid var(--ink);
+    padding: 8px 16px; border-radius: 20px; font-weight: 700;
+    font-size: 13.5px; display: flex; align-items: center; gap: 8px;
+    cursor: pointer; transition: transform 0.15s, background-color 0.2s;
+    color: var(--ink);
   }
-  .section-head h2{font-size:30px;}
-  .section-head p{color:var(--ink-soft);margin:0;font-size:14.5px;}
-  .cat-grid{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:14px;
-  }
-  .cat-tile{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:20px 12px;
-    text-align:center;
-  }
-  .cat-tile .icon-box{
-    width:52px;height:52px;
-    border-radius:50%;
-    background:var(--paper-dark);
-    margin:0 auto 12px;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .cat-tile .name{font-size:13.5px;font-weight:600;}
-  .cat-tile:hover{border-color:var(--ink);background:var(--amber);}
-  .cat-tile:hover .icon-box{background:var(--card);}
-
-  /* ---------- product grid ---------- */
-  .products{padding:68px 0 20px;}
-  .prod-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:22px;
-  }
-  .prod-card{
-    background:var(--card);
-    border:1px solid var(--ink);
-    border-radius:var(--radius);
-    overflow:hidden;
-    position:relative;
-    transition:transform .18s ease;
-  }
-  .prod-card:hover{transform:translateY(-4px) rotate(-0.4deg);}
-  .prod-card .flag{
-    position:absolute;top:12px;left:0;
-    background:var(--red);
-    color:var(--paper);
-    font-size:11.5px;font-weight:700;
-    padding:5px 12px 5px 10px;
-    border-radius:0 4px 4px 0;
-  }
-  .prod-card .flag.new{background:var(--moss);}
-  .prod-card .fav{
-    position:absolute;top:10px;right:10px;
-    width:30px;height:30px;border-radius:50%;
-    background:var(--paper);
-    border:1px solid var(--ink);
-    display:flex;align-items:center;justify-content:center;
-  }
-  .prod-card .icon-box{
-    width:100%;height:170px;
-    background:var(--paper-dark);
-    display:flex;align-items:center;justify-content:center;
-    background-image:radial-gradient(circle, rgba(31,42,40,.14) 1px, transparent 1px);
-    background-size:10px 10px;
-  }
-  .prod-info{padding:16px;}
-  .prod-info .name{font-size:14.5px;font-weight:600;margin-bottom:6px;}
-  .prod-info .rating{
-    display:flex;align-items:center;gap:5px;
-    font-size:12.5px;color:var(--ink-soft);
-    margin-bottom:12px;
-  }
-  .prod-info .rating svg{width:13px;height:13px;fill:var(--amber-deep);stroke:none;}
-  .prod-info .divider{
-    border-top:1px dashed var(--line);
-    margin:0 0 12px;
-  }
-  .prod-info .bottom-row{
-    display:flex;align-items:center;justify-content:space-between;
-  }
-  .prod-info .price{font-family:'Fraunces',serif;font-weight:700;font-size:19px;}
-  .add-btn{
-    background:var(--ink);color:var(--paper);
-    border:none;border-radius:6px;
-    width:36px;height:36px;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .add-btn:hover{background:var(--red);}
-
-  /* ---------- trust strip ---------- */
-  .trust{
-    padding:56px 0;
-    border-top:1px dashed var(--line);
-    border-bottom:1px dashed var(--line);
-    margin-top:60px;
-  }
-  .trust .wrap{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
-  }
-  .trust-item{display:flex;align-items:center;gap:14px;}
-  .trust-item .icon-box{
-    width:44px;height:44px;border-radius:8px;
-    background:var(--card);border:1px solid var(--ink);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-  }
-  .trust-item .title{font-size:14px;font-weight:600;margin-bottom:2px;}
-  .trust-item .sub{font-size:12.5px;color:var(--ink-soft);}
-
-  /* ---------- footer ---------- */
-  footer{
-    background:var(--ink);
-    color:var(--paper);
-    padding:56px 0 26px;
-    margin-top:0;
-  }
-  .foot-top{
-    display:grid;
-    grid-template-columns:1.3fr 1fr 1fr 1fr 1.2fr;
-    gap:32px;
-    padding-bottom:40px;
-    border-bottom:1px solid rgba(236,227,208,0.18);
-  }
-  footer .logo{color:var(--paper);}
-  footer .logo .dot{background:var(--amber);}
-  footer p.blurb{
-    font-size:13.5px;color:var(--paper);opacity:.65;
-    margin-top:14px;line-height:1.6;max-width:220px;
-  }
-  .foot-col h3{
-    font-family:'Inter',sans-serif;font-size:14px;font-weight:600;
-    margin-bottom:16px;color:var(--paper);
-  }
-  .foot-col a{
-    display:block;font-size:13.5px;color:var(--paper);opacity:.7;
-    margin-bottom:11px;
-  }
-  .foot-col a:hover{opacity:1;}
-  .receipt{
-    background:var(--paper);
-    color:var(--ink);
-    border-radius:6px;
-    padding:20px;
-  }
-  .receipt h3{color:var(--ink);font-family:'Fraunces',serif;font-size:16px;margin-bottom:8px;}
-  .receipt p{font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;line-height:1.5;}
-  .receipt form{display:flex;gap:0;border-bottom:1.5px dashed var(--ink);padding-bottom:10px;}
-  .receipt input{
-    flex:1;border:none;background:none;outline:none;
-    font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);
-  }
-  .receipt button{
-    background:var(--red);color:var(--paper);
-    border:none;border-radius:5px;
-    padding:8px 14px;font-size:12.5px;font-weight:600;
-  }
-  .foot-bottom{
-    display:flex;justify-content:space-between;align-items:center;
-    padding-top:22px;font-size:12.5px;color:var(--paper);opacity:.55;
-    flex-wrap:wrap;gap:10px;
+  .cart-btn:hover { transform: translateY(-2px); background: var(--amber); }
+  .cart-badge {
+    background: var(--red); color: white; border-radius: 12px;
+    padding: 2px 8px; font-size: 11px; font-weight: 800;
   }
 
-  @media (max-width:900px){
-    .hero .wrap{grid-template-columns:1fr;}
-    .pinboard{height:280px;margin-top:20px;}
-    .deal-row{grid-template-columns:repeat(2,1fr);}
-    .cat-grid{grid-template-columns:repeat(3,1fr);}
-    .prod-grid{grid-template-columns:repeat(2,1fr);}
-    .trust .wrap{grid-template-columns:repeat(2,1fr);}
-    .foot-top{grid-template-columns:repeat(2,1fr);}
-    .hero-copy h1{font-size:40px;}
+  .dash-link {
+    background: linear-gradient(135deg, #6C63FF, #4F46E5);
+    color: white !important; padding: 8px 14px; border-radius: 20px;
+    font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .dash-link:hover { opacity: 0.95; transform: translateY(-2px); }
+
+  /* Views container */
+  .view-section { display: none; }
+  .view-section.active { display: block; }
+
+  /* ==================== STOREFRONT STYLES ==================== */
+  .hero-banner {
+    background: var(--card); border: 2px solid var(--ink); border-radius: 14px;
+    padding: 36px 40px; margin: 28px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .hero-text h1 { font-size: 42px; line-height: 1.15; margin-bottom: 12px; }
+  .hero-text p { font-size: 16px; color: var(--ink-soft); max-width: 480px; margin-bottom: 20px; }
+  .hero-cta {
+    background: var(--ink); color: var(--paper); padding: 12px 26px; border-radius: 25px;
+    font-size: 14px; font-weight: 700; display: inline-block; cursor: pointer;
+  }
+  .hero-badge {
+    background: var(--amber); color: var(--ink); font-weight: 800; font-size: 12px;
+    padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* Section Titles */
+  .sec-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin: 36px 0 20px; border-bottom: 1.5px solid var(--line); padding-bottom: 10px;
+  }
+  .sec-head h2 { font-size: 26px; }
+
+  /* Category pills */
+  .cat-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 24px; }
+  .cat-chip {
+    background: var(--card); border: 1.5px solid var(--line);
+    padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    white-space: nowrap; cursor: pointer; transition: all 0.2s;
+  }
+  .cat-chip.active, .cat-chip:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* Product grid */
+  .product-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  }
+  .prod-card {
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 12px;
+    padding: 16px; display: flex; flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .prod-card:hover {
+    transform: translateY(-4px); border-color: var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .prod-img-box {
+    height: 140px; background: rgba(0,0,0,0.03); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px; margin-bottom: 14px; position: relative;
+  }
+  .stock-pill {
+    position: absolute; top: 8px; left: 8px;
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .stock-pill.healthy { background: rgba(45,138,78,0.15); color: var(--green); }
+  .stock-pill.low { background: rgba(224,162,56,0.18); color: var(--amber-deep); }
+  .stock-pill.crit { background: rgba(189,68,56,0.18); color: var(--red); }
+
+  .prod-cat { font-size: 11.5px; color: var(--ink-soft); text-transform: uppercase; font-weight: 600; }
+  .prod-name { font-size: 15px; font-weight: 700; margin: 4px 0 10px; line-height: 1.3; }
+  .prod-foot {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--line);
+  }
+  .prod-price { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 800; }
+  .add-btn {
+    background: var(--ink); color: var(--paper); border-radius: 6px;
+    padding: 6px 14px; font-size: 12.5px; font-weight: 700;
+    transition: all 0.2s;
+  }
+  .add-btn:hover { background: var(--amber); color: var(--ink); }
+
+  /* ==================== CART VIEW STYLES ==================== */
+  .cart-container { padding: 36px 0 60px; }
+  .cart-layout {
+    display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start;
+  }
+  .cart-box {
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 14px;
+    padding: 24px;
+  }
+  .cart-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 0; border-bottom: 1px dashed var(--line);
+  }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-icon {
+    width: 60px; height: 60px; border-radius: 8px; background: rgba(0,0,0,0.04);
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+    flex-shrink: 0;
+  }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .cart-item-cat { font-size: 12px; color: var(--ink-soft); }
+  .cart-item-price { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 800; }
+
+  .qty-ctrl {
+    display: flex; align-items: center; border: 1.5px solid var(--line);
+    border-radius: 20px; overflow: hidden; background: var(--paper);
+  }
+  .qty-btn {
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: var(--ink);
+  }
+  .qty-btn:hover { background: var(--card); }
+  .qty-val { width: 30px; text-align: center; font-size: 13px; font-weight: 700; }
+
+  .del-btn {
+    color: var(--red); padding: 6px; margin-left: 8px; font-size: 16px;
+  }
+
+  /* Order summary box */
+  .summary-row {
+    display: flex; justify-content: space-between; font-size: 14px;
+    margin-bottom: 12px; color: var(--ink-soft);
+  }
+  .summary-row.total {
+    border-top: 1.5px dashed var(--ink); padding-top: 14px; margin-top: 14px;
+    font-size: 18px; font-weight: 800; color: var(--ink);
+  }
+  .coupon-box {
+    display: flex; gap: 8px; margin: 16px 0;
+  }
+  .coupon-box input {
+    flex: 1; background: var(--paper); border: 1px solid var(--line);
+    border-radius: 6px; padding: 8px 12px; font-size: 13px; color: var(--ink); outline: none;
+  }
+  .coupon-btn {
+    background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 6px;
+    font-size: 12px; font-weight: 700;
+  }
+  .checkout-btn {
+    width: 100%; background: var(--green); color: white; padding: 14px;
+    border-radius: 10px; font-size: 15px; font-weight: 800; text-align: center;
+    box-shadow: 0 4px 12px rgba(45,138,78,0.25); transition: transform 0.2s;
+  }
+  .checkout-btn:hover { transform: translateY(-2px); }
+
+  .empty-cart {
+    text-align: center; padding: 50px 20px;
+  }
+  .empty-cart-icon { font-size: 54px; margin-bottom: 12px; opacity: 0.6; }
+  .empty-cart h3 { font-size: 22px; margin-bottom: 8px; }
+  .empty-cart p { color: var(--ink-soft); font-size: 14px; margin-bottom: 20px; }
+
+  /* Footer */
+  footer {
+    background: var(--ink); color: var(--paper); padding: 40px 0 20px;
+    margin-top: auto; font-size: 13.5px;
+  }
+  .foot-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
+
+  @media (max-width: 900px) {
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .cart-layout { grid-template-columns: 1fr; }
+    .hero-banner { flex-direction: column; text-align: center; }
   }
 </style>
 </head>
 <body>
 
+<!-- Toast -->
+<div id="toast" class="toast">
+  <span>✓</span>
+  <span id="toast-msg">Item added to cart!</span>
+</div>
+
+<!-- Floating Dark Mode Toggle -->
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+  <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+
+<!-- Utility Bar -->
 <div class="utility">
   <div class="wrap">
-    <span>Free delivery on your first order over ₹499</span>
+    <span>⚡ Instant 10-Minute Delivery across Mumbai, Pune, Thane &amp; Navi Mumbai</span>
     <div class="links">
-      <span>Track order</span>
-      <span>Help</span>
-      <span>Sell on Clinkt</span>
+      <a href="dashboard.html" target="_blank">📊 Investigation Dashboard</a>
+      <a href="findings_report.html" target="_blank">📄 Executive Report</a>
     </div>
   </div>
 </div>
 
+<!-- Header -->
 <header class="site">
   <div class="wrap header-row">
-    <div class="logo"><span class="dot"></span>Clinkt</div>
-    <div class="search">
-      <input type="text" placeholder="Search for anything — shoes, lamps, headphones…">
-      <button aria-label="Search">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
-      </button>
+    <div class="logo" onclick="switchView('shop')">
+      <span class="dot"></span>Clinkt
     </div>
+
+    <div class="search-box">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search milk, noodles, dal, juice..." oninput="filterProducts()">
+    </div>
+
+    <nav class="nav-pills">
+      <button class="nav-pill active" id="pill-shop" onclick="switchView('shop')">Shop</button>
+      <button class="nav-pill" id="pill-cart" onclick="switchView('cart')">Cart</button>
+    </nav>
+
     <div class="header-actions">
-      <button class="icon-btn">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.5 8 2.3 4.5 6 4c2.2-.3 3.9.9 6 3 2.1-2.1 3.8-3.3 6-3 3.7.5 5.5 4 4 7.8C19.5 16.4 12 21 12 21z"/></svg>
-        Saved
-      </button>
-      <button class="icon-btn">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M6 7h12l-1 12.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 19.5L6 7z"/><path d="M9 7V5.5A2.5 2.5 0 0 1 11.5 3h1A2.5 2.5 0 0 1 15 5.5V7"/></svg>
-        Cart
-        <span class="badge">3</span>
+      <a href="dashboard.html" target="_blank" class="dash-link">📊 Analytics BI</a>
+      <button class="cart-btn" onclick="switchView('cart')">
+        🛒 <span class="cart-badge" id="headerCartCount">0</span>
       </button>
     </div>
   </div>
 </header>
 
-<nav class="tagnav">
+<!-- ==================== VIEW 1: STOREFRONT ==================== -->
+<main id="view-shop" class="view-section active">
   <div class="wrap">
-    <a class="tag-chip">Electronics</a>
-    <a class="tag-chip">Home &amp; living</a>
-    <a class="tag-chip">Fashion</a>
-    <a class="tag-chip">Beauty</a>
-    <a class="tag-chip">Sports &amp; outdoor</a>
-    <a class="tag-chip">Toys &amp; kids</a>
-    <a class="tag-chip">Books</a>
-    <a class="tag-chip">Grocery</a>
-    <a class="tag-chip">Auto</a>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-copy">
-      <p class="eyebrow">A marketplace with millions of sellers</p>
-      <h1>Everything,<br>sold <em>here.</em></h1>
-      <p class="sub">From desk lamps to sneakers to the exact charger you lost — one search bar, one checkout, thousands of small sellers behind it.</p>
-      <div class="hero-ctas">
-        <button class="btn-primary">Start browsing</button>
-        <button class="btn-secondary">Today's deals</button>
+    <!-- Hero -->
+    <div class="hero-banner">
+      <div class="hero-text">
+        <span class="hero-badge">Clinkt Reimagined</span>
+        <h1>Groceries, Snacks &amp; Essentials in 10 mins.</h1>
+        <p>Dynamic stock replenishment ensures your everyday staples and breakfast packs are always available.</p>
+        <button class="hero-cta" onclick="filterCategory('Staples & Grains')">Explore Fresh Staples →</button>
       </div>
+      <div style="font-size: 80px; opacity: 0.9;">🛒📦⚡</div>
     </div>
-    <div class="pinboard">
-      <div class="pin-tag p1">
-        <div class="icon-box">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg>
-        </div>
-        <div class="name">Canvas tote</div>
-        <div class="price">₹680</div>
-      </div>
-      <div class="pin-tag p2">
-        <div class="icon-box">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg>
-        </div>
-        <div class="name">Studio headphones</div>
-        <div class="price">₹2,490</div>
-      </div>
-      <div class="pin-tag p3">
-        <div class="icon-box">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><path d="M12 3c-3 3-3 6 0 9 3-3 3-6 0-9z"/><path d="M12 12v9"/><path d="M8 21h8"/></svg>
-        </div>
-        <div class="name">Table lamp</div>
-        <div class="price">₹1,120</div>
-      </div>
-      <div class="pin-tag p4">
-        <div class="icon-box">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><path d="M4 16l3-8h10l3 8"/><path d="M2 16h20l-1.5 4h-17z"/></svg>
-        </div>
-        <div class="name">Running shoe</div>
-        <div class="price">₹3,250</div>
-      </div>
+
+    <!-- Category selector -->
+    <div class="sec-head">
+      <h2>Browse Categories</h2>
+      <span style="font-size: 13px; color: var(--ink-soft);">Showing <strong id="productCount">36</strong> products</span>
+    </div>
+
+    <div class="cat-bar">
+      <button class="cat-chip active" onclick="filterCategory('All')">All Items</button>
+      <button class="cat-chip" onclick="filterCategory('Packaged Foods')">Packaged Foods</button>
+      <button class="cat-chip" onclick="filterCategory('Dairy & Breakfast')">Dairy &amp; Breakfast</button>
+      <button class="cat-chip" onclick="filterCategory('Fresh Produce')">Fresh Produce</button>
+      <button class="cat-chip" onclick="filterCategory('Beverages')">Beverages</button>
+      <button class="cat-chip" onclick="filterCategory('Staples & Grains')">Staples &amp; Grains</button>
+      <button class="cat-chip" onclick="filterCategory('Snacks & Confectionery')">Snacks</button>
+      <button class="cat-chip" onclick="filterCategory('Home Care')">Home Care</button>
+      <button class="cat-chip" onclick="filterCategory('Personal Care')">Personal Care</button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid" id="productGrid">
+      <!-- Injected by JS -->
     </div>
   </div>
-</section>
+</main>
 
-<section class="deals">
-  <div class="wrap">
-    <div class="heading">
-      <h2>Closing out today</h2>
-      <p>Restocked daily at midnight</p>
+<!-- ==================== VIEW 2: CART ==================== -->
+<main id="view-cart" class="view-section">
+  <div class="wrap cart-container">
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:24px; font-size:13.5px; color:var(--ink-soft);">
+      <span style="cursor:pointer;" onclick="switchView('shop')">Home</span> &gt;
+      <strong style="color:var(--ink);">Shopping Cart</strong>
     </div>
-    <div class="deal-row">
-      <div class="deal-card">
-        <div class="stamp">−32%</div>
-        <div class="icon-box">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="3" y="7" width="18" height="12" rx="2"/><circle cx="12" cy="13" r="3"/></svg>
+
+    <div id="cartContent" class="cart-layout">
+      <!-- Left: Cart Items List -->
+      <div class="cart-box">
+        <h2 style="font-size:22px; margin-bottom:16px;">Review Your Basket (<span id="cartItemCount">0</span>)</h2>
+        <div id="cartItemsList">
+          <!-- Injected by JS -->
         </div>
-        <div class="name">Instant film camera</div>
-        <div class="price-row"><span class="price">₹4,199</span><span class="old">₹6,199</span></div>
       </div>
-      <div class="deal-card">
-        <div class="stamp">−18%</div>
-        <div class="icon-box">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+
+      <!-- Right: Summary -->
+      <div class="cart-box">
+        <h3 style="font-size:18px; margin-bottom:16px;">Order Summary</h3>
+        <div class="summary-row">
+          <span>Items Subtotal</span>
+          <span id="subtotalVal">₹0</span>
         </div>
-        <div class="name">Steel wall clock</div>
-        <div class="price-row"><span class="price">₹890</span><span class="old">₹1,080</span></div>
-      </div>
-      <div class="deal-card">
-        <div class="stamp">−45%</div>
-        <div class="icon-box">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/></svg>
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <span id="deliveryVal">₹40</span>
         </div>
-        <div class="name">Ceramic planter set</div>
-        <div class="price-row"><span class="price">₹560</span><span class="old">₹1,020</span></div>
-      </div>
-      <div class="deal-card">
-        <div class="stamp">−12%</div>
-        <div class="icon-box">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="18" x2="15" y2="18"/></svg>
+        <div class="summary-row" id="discountRow" style="display:none; color:var(--green);">
+          <span>Discount (CLINKT20)</span>
+          <span id="discountVal">-₹0</span>
         </div>
-        <div class="name">6.1" smartphone</div>
-        <div class="price-row"><span class="price">₹14,990</span><span class="old">₹17,050</span></div>
+
+        <div class="coupon-box">
+          <input type="text" id="couponInput" placeholder="Promo code (try CLINKT20)">
+          <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+        </div>
+
+        <div class="summary-row total">
+          <span>Total Payable</span>
+          <span id="totalVal" style="color:var(--green); font-size:22px;">₹0</span>
+        </div>
+
+        <button class="checkout-btn" onclick="checkout()" style="margin-top:16px;">
+          Proceed to Pay ➔
+        </button>
+        <div style="text-align:center; font-size:11.5px; color:var(--ink-soft); margin-top:10px;">
+          🔒 100% Safe &amp; Contactless Delivery
+        </div>
       </div>
+    </div>
+
+    <!-- Empty cart state -->
+    <div id="emptyCartView" class="cart-box empty-cart" style="display:none;">
+      <div class="empty-cart-icon">🛒</div>
+      <h3>Your basket is empty</h3>
+      <p>Looks like you haven't added anything to your cart yet.</p>
+      <button class="hero-cta" onclick="switchView('shop')">Start Shopping Now →</button>
     </div>
   </div>
-</section>
+</main>
 
-<section class="categories">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Shop by category</h2>
-      <p>27,000+ sellers across 9 departments</p>
-    </div>
-    <div class="cat-grid">
-      <div class="cat-tile">
-        <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg></div>
-        <div class="name">Fashion</div>
-      </div>
-      <div class="cat-tile">
-        <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="4" y="4" width="16" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/></svg></div>
-        <div class="name">Electronics</div>
-      </div>
-      <div class="cat-tile">
-        <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/></svg></div>
-        <div class="name">Home &amp; living</div>
-      </div>
-      <div class="cat-tile">
-        <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
-        <div class="name">Beauty</div>
-      </div>
-      <div class="cat-tile">
-        <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/></svg></div>
-        <div class="name">Sports</div>
-      </div>
-      <div class="cat-tile">
-        <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M8 5v-1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v1"/></svg></div>
-        <div class="name">Toys &amp; kids</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="products">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Trending this week</h2>
-      <p>Picked from what shoppers near you are buying</p>
-    </div>
-    <div class="prod-grid">
-
-      <div class="prod-card">
-        <span class="flag">−20%</span>
-        <div class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.2C.5 8 2.3 4.5 6 4c2.2-.3 3.9.9 6 3 2.1-2.1 3.8-3.3 6-3 3.7.5 5.5 4 4 7.8C19.5 16.4 12 21 12 21z"/></svg></div>
-        <div class="icon-box"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.4"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2" y="13" width="5" height="7" rx="1.5"/><rect x="17" y="13" width="5" height="7" rx="1.5"/></svg></div>
-        <div class="prod-info">
-          <div class="name">Wireless studio headphones</div>
-          <div class="rating">
-            <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,17 5.5,21 7.5,13.5 2,9 9,9"/></svg>
-            4.7 · 2,140 sold
-          </div>
-          <div class="divider"></div>
-          <div class="bottom-row">
-            <span class="price">₹2,490</span>
-            <button class="add-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <div class="prod-card">
-        <span class="flag new">New</span>
-        <div class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.2C.5 8 2.3 4.5 6 4c2.2-.3 3.9.9 6 3 2.1-2.1 3.8-3.3 6-3 3.7.5 5.5 4 4 7.8C19.5 16.4 12 21 12 21z"/></svg></div>
-        <div class="icon-box"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.4"><path d="M12 3c-3 3-3 6 0 9 3-3 3-6 0-9z"/><path d="M12 12v9"/><path d="M8 21h8"/></svg></div>
-        <div class="prod-info">
-          <div class="name">Arched brass table lamp</div>
-          <div class="rating">
-            <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,17 5.5,21 7.5,13.5 2,9 9,9"/></svg>
-            4.9 · 640 sold
-          </div>
-          <div class="divider"></div>
-          <div class="bottom-row">
-            <span class="price">₹1,120</span>
-            <button class="add-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <div class="prod-card">
-        <div class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.2C.5 8 2.3 4.5 6 4c2.2-.3 3.9.9 6 3 2.1-2.1 3.8-3.3 6-3 3.7.5 5.5 4 4 7.8C19.5 16.4 12 21 12 21z"/></svg></div>
-        <div class="icon-box"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.4"><path d="M4 16l3-8h10l3 8"/><path d="M2 16h20l-1.5 4h-17z"/></svg></div>
-        <div class="prod-info">
-          <div class="name">Trail running shoe</div>
-          <div class="rating">
-            <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,17 5.5,21 7.5,13.5 2,9 9,9"/></svg>
-            4.5 · 5,310 sold
-          </div>
-          <div class="divider"></div>
-          <div class="bottom-row">
-            <span class="price">₹3,250</span>
-            <button class="add-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-      <div class="prod-card">
-        <span class="flag">−15%</span>
-        <div class="fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.2C.5 8 2.3 4.5 6 4c2.2-.3 3.9.9 6 3 2.1-2.1 3.8-3.3 6-3 3.7.5 5.5 4 4 7.8C19.5 16.4 12 21 12 21z"/></svg></div>
-        <div class="icon-box"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.4"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg></div>
-        <div class="prod-info">
-          <div class="name">Woven canvas tote bag</div>
-          <div class="rating">
-            <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,17 5.5,21 7.5,13.5 2,9 9,9"/></svg>
-            4.6 · 1,860 sold
-          </div>
-          <div class="divider"></div>
-          <div class="bottom-row">
-            <span class="price">₹680</span>
-            <button class="add-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="trust">
-  <div class="wrap">
-    <div class="trust-item">
-      <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.7"><path d="M3 12l6 6L21 6"/></svg></div>
-      <div><div class="title">Buyer protection</div><div class="sub">Full refund if items don't arrive</div></div>
-    </div>
-    <div class="trust-item">
-      <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.7"><rect x="3" y="9" width="14" height="10" rx="1.5"/><path d="M17 12h2l2 3v4h-4"/><circle cx="7.5" cy="19.5" r="1.5"/><circle cx="17.5" cy="19.5" r="1.5"/></svg></div>
-      <div><div class="title">Fast dispatch</div><div class="sub">Most orders ship within 24 hours</div></div>
-    </div>
-    <div class="trust-item">
-      <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.7"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></div>
-      <div><div class="title">Secure checkout</div><div class="sub">Payments encrypted end to end</div></div>
-    </div>
-    <div class="trust-item">
-      <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.7"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 12l4-2M3 12l4 2"/></svg></div>
-      <div><div class="title">Easy returns</div><div class="sub">14-day window, no questions asked</div></div>
-    </div>
-  </div>
-</section>
-
+<!-- Footer -->
 <footer>
   <div class="wrap">
-    <div class="foot-top">
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;">
       <div>
-        <div class="logo"><span class="dot"></span>Clinkt</div>
-        <p class="blurb">A marketplace built from small sellers and everyday finds — clothes, gadgets, plants, whatever's next on your list.</p>
+        <div class="logo" style="color:var(--paper);"><span class="dot"></span>Clinkt</div>
+        <p style="opacity:0.7; font-size:13px; margin-top:8px; max-width:280px;">Everything you need, delivered in minutes with optimized dynamic inventory.</p>
       </div>
-      <div class="foot-col">
-        <h3>Shop</h3>
-        <a href="#">Electronics</a>
-        <a href="#">Fashion</a>
-        <a href="#">Home &amp; living</a>
-        <a href="#">Deals</a>
-      </div>
-      <div class="foot-col">
-        <h3>Account</h3>
-        <a href="#">Orders</a>
-        <a href="#">Wishlist</a>
-        <a href="#">Addresses</a>
-        <a href="#">Payment methods</a>
-      </div>
-      <div class="foot-col">
-        <h3>Company</h3>
-        <a href="#">About Clinkt</a>
-        <a href="#">Sell on Clinkt</a>
-        <a href="#">Careers</a>
-        <a href="#">Contact</a>
-      </div>
-      <div class="receipt">
-        <h3>Get the weekly drop</h3>
-        <p>New sellers and price cuts, one email a week.</p>
-        <form onsubmit="return false;">
-          <input type="email" placeholder="you@email.com">
-          <button type="submit">Sign up</button>
-        </form>
+      <div>
+        <div style="font-weight:700; margin-bottom:10px;">Case Deliverables</div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:13px; opacity:0.8;">
+          <a href="dashboard.html">📊 Interactive Investigation Dashboard</a>
+          <a href="findings_report.pdf">📄 Findings Report (PDF)</a>
+          <a href="findings_report.md">📝 Executive Summary (Markdown)</a>
+        </div>
       </div>
     </div>
-    <div class="foot-bottom">
-      <span>© 2026 Clinkt Marketplace</span>
-      <span>Privacy · Terms · Sitemap</span>
+    <div class="foot-row">
+      <span style="opacity:0.6;">© 2026 Clinkt Technologies. Hackathon Prototype.</span>
+      <span style="opacity:0.6;">Built with Clean Architecture</span>
     </div>
   </div>
 </footer>
 
+<script>
+// Catalog Database (36 Products)
+const PRODUCTS = [
+  { id: 'P001', name: 'Toned Milk 1 L', category: 'Dairy & Breakfast', price: 64, icon: '🥛', stock: 'Healthy' },
+  { id: 'P002', name: 'Paneer 200 g', category: 'Dairy & Breakfast', price: 85, icon: '🧀', stock: 'Healthy' },
+  { id: 'P003', name: 'Curd 400 g', category: 'Dairy & Breakfast', price: 52, icon: '🥣', stock: 'Low Stock' },
+  { id: 'P004', name: 'Butter 100 g', category: 'Dairy & Breakfast', price: 58, icon: '🧈', stock: 'Low Stock' },
+  { id: 'P005', name: 'Tomatoes 1 kg', category: 'Fresh Produce', price: 42, icon: '🍅', stock: 'Healthy' },
+  { id: 'P006', name: 'Onions 1 kg', category: 'Fresh Produce', price: 38, icon: '🧅', stock: 'Healthy' },
+  { id: 'P007', name: 'Potatoes 1 kg', category: 'Fresh Produce', price: 34, icon: '🥔', stock: 'Healthy' },
+  { id: 'P008', name: 'Bananas 1 kg', category: 'Fresh Produce', price: 60, icon: '🍌', stock: 'Low Stock' },
+  { id: 'P009', name: 'Instant Noodles 4-Pack', category: 'Packaged Foods', price: 56, icon: '🍜', stock: 'Critical' },
+  { id: 'P010', name: 'Pasta 500 g', category: 'Packaged Foods', price: 89, icon: '🍝', stock: 'Low Stock' },
+  { id: 'P011', name: 'Breakfast Cereal 500 g', category: 'Packaged Foods', price: 210, icon: '🥣', stock: 'Healthy' },
+  { id: 'P012', name: 'Tomato Ketchup 500 g', category: 'Packaged Foods', price: 115, icon: '🥫', stock: 'Healthy' },
+  { id: 'P013', name: 'Cola 750 ml', category: 'Beverages', price: 40, icon: '🥤', stock: 'Healthy' },
+  { id: 'P014', name: 'Orange Juice 1 L', category: 'Beverages', price: 120, icon: '🍊', stock: 'Low Stock' },
+  { id: 'P015', name: 'Green Tea 25 Bags', category: 'Beverages', price: 175, icon: '🍵', stock: 'Healthy' },
+  { id: 'P016', name: 'Instant Coffee 100 g', category: 'Beverages', price: 299, icon: '☕', stock: 'Healthy' },
+  { id: 'P017', name: 'Potato Chips 100 g', category: 'Snacks & Confectionery', price: 30, icon: '🥔', stock: 'Healthy' },
+  { id: 'P018', name: 'Cookies 200 g', category: 'Snacks & Confectionery', price: 45, icon: '🍪', stock: 'Healthy' },
+  { id: 'P019', name: 'Dark Chocolate 100 g', category: 'Snacks & Confectionery', price: 99, icon: '🍫', stock: 'Healthy' },
+  { id: 'P020', name: 'Mixed Nuts 200 g', category: 'Snacks & Confectionery', price: 249, icon: '🥜', stock: 'Low Stock' },
+  { id: 'P021', name: 'Wheat Flour 5 kg', category: 'Staples & Grains', price: 245, icon: '🌾', stock: 'Healthy' },
+  { id: 'P022', name: 'Basmati Rice 1 kg', category: 'Staples & Grains', price: 135, icon: '🍚', stock: 'Healthy' },
+  { id: 'P023', name: 'Toor Dal 1 kg', category: 'Staples & Grains', price: 165, icon: '🍲', stock: 'Healthy' },
+  { id: 'P024', name: 'Sunflower Oil 1 L', category: 'Staples & Grains', price: 155, icon: '🌻', stock: 'Healthy' },
+  { id: 'P025', name: 'Laundry Detergent 1 kg', category: 'Home Care', price: 199, icon: '🧺', stock: 'Low Stock' },
+  { id: 'P026', name: 'Dishwash Liquid 500 ml', category: 'Home Care', price: 105, icon: '🧼', stock: 'Healthy' },
+  { id: 'P027', name: 'Floor Cleaner 1 L', category: 'Home Care', price: 149, icon: '✨', stock: 'Healthy' },
+  { id: 'P028', name: 'Paper Towels 6-Roll', category: 'Home Care', price: 220, icon: '🧻', stock: 'Healthy' },
+  { id: 'P029', name: 'Bath Soap 4-Pack', category: 'Personal Care', price: 140, icon: '🧼', stock: 'Critical' },
+  { id: 'P030', name: 'Shampoo 340 ml', category: 'Personal Care', price: 275, icon: '🧴', stock: 'Healthy' },
+  { id: 'P031', name: 'Toothpaste 150 g', category: 'Personal Care', price: 95, icon: '🪥', stock: 'Healthy' },
+  { id: 'P032', name: 'Hand Wash Refill 750 ml', category: 'Personal Care', price: 119, icon: '🧴', stock: 'Healthy' },
+  { id: 'P033', name: 'Garbage Bags 30-Pack', category: 'Household Essentials', price: 99, icon: '🗑️', stock: 'Healthy' },
+  { id: 'P034', name: 'Aluminium Foil 25 m', category: 'Household Essentials', price: 160, icon: '📦', stock: 'Healthy' },
+  { id: 'P035', name: 'Toilet Cleaner 500 ml', category: 'Household Essentials', price: 89, icon: '🚽', stock: 'Healthy' },
+  { id: 'P036', name: 'Mosquito Vaporizer Refill', category: 'Household Essentials', price: 82, icon: '🦟', stock: 'Healthy' }
+];
+
+// App State
+let cart = JSON.parse(localStorage.getItem('clinkt_cart') || '[]');
+let activeCategory = 'All';
+let discount = 0;
+
+function saveCart() {
+  localStorage.setItem('clinkt_cart', JSON.stringify(cart));
+  updateCartBadge();
+}
+
+function updateCartBadge() {
+  const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('headerCartCount').innerText = totalCount;
+}
+
+// Render Products Grid
+function renderProducts(items) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  document.getElementById('productCount').innerText = items.length;
+
+  items.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'prod-card';
+
+    const stockClass = p.stock === 'Critical' ? 'crit' : (p.stock === 'Low Stock' ? 'low' : 'healthy');
+    const stockLabel = p.stock === 'Critical' ? '⚠️ Critically Low' : (p.stock === 'Low Stock' ? '⚡ Low Stock' : '✓ In Stock');
+
+    card.innerHTML = `
+      <div class="prod-img-box">
+        <span class="stock-pill ${stockClass}">${stockLabel}</span>
+        ${p.icon}
+      </div>
+      <div class="prod-cat">${p.category}</div>
+      <div class="prod-name">${p.name}</div>
+      <div class="prod-foot">
+        <div class="prod-price">₹${p.price}</div>
+        <button class="add-btn" onclick="addToCart('${p.id}')">+ Add</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function addToCart(productId) {
+  const p = PRODUCTS.find(x => x.id === productId);
+  if (!p) return;
+
+  const existing = cart.find(x => x.id === productId);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ ...p, qty: 1 });
+  }
+
+  saveCart();
+  showToast(`Added "${p.name}" to cart!`);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// Filter products
+function filterCategory(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-chip').forEach(btn => {
+    btn.classList.toggle('active', btn.innerText.includes(cat) || (cat === 'All' && btn.innerText.includes('All')));
+  });
+  applyFilters();
+}
+
+function filterProducts() {
+  applyFilters();
+}
+
+function applyFilters() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  let filtered = PRODUCTS;
+
+  if (activeCategory !== 'All') {
+    filtered = filtered.filter(p => p.category === activeCategory);
+  }
+
+  if (query) {
+    filtered = filtered.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+  }
+
+  renderProducts(filtered);
+}
+
+// Switch between Shop and Cart View
+function switchView(viewName) {
+  document.getElementById('view-shop').classList.toggle('active', viewName === 'shop');
+  document.getElementById('view-cart').classList.toggle('active', viewName === 'cart');
+  document.getElementById('pill-shop').classList.toggle('active', viewName === 'shop');
+  document.getElementById('pill-cart').classList.toggle('active', viewName === 'cart');
+
+  if (viewName === 'cart') {
+    renderCart();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Render Cart
+function renderCart() {
+  const cartItemsList = document.getElementById('cartItemsList');
+  const cartContent = document.getElementById('cartContent');
+  const emptyCartView = document.getElementById('emptyCartView');
+
+  if (cart.length === 0) {
+    cartContent.style.display = 'none';
+    emptyCartView.style.display = 'block';
+    return;
+  }
+
+  cartContent.style.display = 'grid';
+  emptyCartView.style.display = 'none';
+  cartItemsList.innerHTML = '';
+
+  let subtotal = 0;
+  let totalUnits = 0;
+
+  cart.forEach(item => {
+    subtotal += item.price * item.qty;
+    totalUnits += item.qty;
+
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML = `
+      <div class="cart-item-icon">${item.icon}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-cat">${item.category} • ₹${item.price} each</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+        <span class="qty-val">${item.qty}</span>
+        <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+      </div>
+      <div class="cart-item-price">₹${item.price * item.qty}</div>
+      <button class="del-btn" onclick="removeFromCart('${item.id}')" title="Remove">✕</button>
+    `;
+    cartItemsList.appendChild(row);
+  });
+
+  const delivery = subtotal > 499 || subtotal === 0 ? 0 : 40;
+  const discountAmount = Math.round(subtotal * discount);
+  const total = Math.max(0, subtotal + delivery - discountAmount);
+
+  document.getElementById('cartItemCount').innerText = `${totalUnits} items`;
+  document.getElementById('subtotalVal').innerText = `₹${subtotal}`;
+  document.getElementById('deliveryVal').innerText = delivery === 0 ? 'FREE (Orders > ₹499)' : `₹${delivery}`;
+
+  if (discount > 0) {
+    document.getElementById('discountRow').style.display = 'flex';
+    document.getElementById('discountVal').innerText = `-₹${discountAmount}`;
+  } else {
+    document.getElementById('discountRow').style.display = 'none';
+  }
+
+  document.getElementById('totalVal').innerText = `₹${total}`;
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+
+  item.qty += delta;
+  if (item.qty <= 0) {
+    cart = cart.filter(x => x.id !== id);
+  }
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  if (code === 'CLINKT20') {
+    discount = 0.20;
+    showToast('🎉 20% discount coupon applied!');
+    renderCart();
+  } else if (code) {
+    showToast('Invalid coupon code.');
+  }
+}
+
+function checkout() {
+  alert('🎉 Order Placed Successfully!\n\nYour items are being packed at the nearest Clinkt Dark Store.\nEstimated delivery time: 9 minutes.');
+  cart = [];
+  discount = 0;
+  saveCart();
+  switchView('shop');
+}
+
+// Dark Mode Toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  const nextTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', nextTheme);
+  localStorage.setItem('clinkt_theme', nextTheme);
+}
+
+// Init
+const savedTheme = localStorage.getItem('clinkt_theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+renderProducts(PRODUCTS);
+updateCartBadge();
+</script>
 </body>
 </html>
