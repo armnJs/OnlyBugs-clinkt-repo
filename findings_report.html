@@ -541,41 +541,36 @@
   </div>
 </div>
 
-<!-- ==================== PAGE 7: RECOMMENDATIONS ==================== -->
-<div class="page">
-  <div class="page-num">Recommendations</div>
-  <h2>What Clinkt Should Do</h2>
-  <p class="lead">Three interventions, ordered by expected impact and implementation speed.</p>
-
-  <div class="rec-box" style="border-left:4px solid var(--red);border-color:rgba(255,90,90,0.3)">
-    <h4>🚨 Immediate — Fix Inventory Prioritization (Week 1-2)</h4>
-    <ol>
-      <li><strong>Implement demand-score-based replenishment.</strong> Use View + Cart signals (not just past sales) to predict restock needs. Instant Noodles, Orange Juice, and Bath Soap should never hit critical stock again.</li>
-      <li><strong>Set per-product dynamic stock thresholds.</strong> A "Low Stock" of 10 units for a high-velocity item like Instant Noodles is a stockout in disguise. Thresholds should scale with demand velocity.</li>
-      <li><strong>Prioritize high-AOV cities (Mumbai, Navi Mumbai)</strong> with deeper inventory — they generate the most revenue per order.</li>
-    </ol>
+  <div class="rec-box" style="border-left:4px solid var(--accent);border-color:rgba(108,99,255,0.4); margin-bottom:24px;">
+    <h4>⚙️ The 3 Pillars of Our Algorithmic Solution Engine</h4>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; font-family:monospace; font-size:12px; line-height:1.6; color:var(--text); overflow-x:auto; margin-bottom:12px;">
+                       ┌────────────────────────────────────────────────────────┐<br>
+                       │               CLINKT SOLUTION ENGINE                   │<br>
+                       └────────────────────────────────────────────────────────┘<br>
+                                 │                            │<br>
+            ┌────────────────────┴───────────┐   ┌────────────┴──────────────────────┐<br>
+            ▼                                │   ▼                                   ▼<br>
+┌───────────────────────────────┐            │ ┌───────────────────────────┐ ┌───────────────────────────┐<br>
+│ 1. Dynamic Demand-Signal      │            │ │ 2. Recommendation Engine  │ │ 3. Cart Recovery &amp; Family │<br>
+│    Replenishment Model        │            │ │    Re-Weighting Matrix    │ │    Bundle Engine          │<br>
+│                               │            │ │                           │ │                           │<br>
+│ • Uses (Views + 2*Carts)      │            │ │ • Suppress Home Care      │ │ • Dynamic trigger on      │<br>
+│ • Safety buffer: 3-day lead   │            │ │   from 15.5% to 9.0%      │ │   666 abandoned carts     │<br>
+│ • Instant Noodles stockout    │            │ │ • Boost Staples +66%      │ │ • Family segment recovery │<br>
+│   drops from 11 days to 0     │            │ │ • Fresh Produce +42%      │ │   targets &lt;25% drop       │<br>
+└───────────────────────────────┘            │ └───────────────────────────┘ └───────────────────────────┘<br>
+                                             │<br>
+                                             ▼<br>
+                       ┌───────────────────────────────────────────┐<br>
+                       │   LIVE REVENUE SIMULATOR (IN DASHBOARD)   │<br>
+                       │   Current: ₹48,412  ──►  New: ₹80,997     │<br>
+                       │             (+67.3% - +87.6% ROI)         │<br>
+                       └───────────────────────────────────────────┘
+    </div>
   </div>
 
-  <div class="rec-box" style="border-left:4px solid var(--amber);border-color:rgba(251,191,36,0.3)">
-    <h4>⚡ Short-Term — Rebuild Recommendations (Week 2-4)</h4>
-    <ol>
-      <li><strong>Reduce Home Care and Personal Care prominence</strong> in recommendations — they get disproportionate views but convert poorly (6.5% and 2.3% view-order gaps).</li>
-      <li><strong>Boost Staples & Grains and Fresh Produce</strong> — these are under-surfaced but over-ordered, proving latent demand.</li>
-      <li><strong>Target Family segment specifically</strong> — they have the worst abandonment (79.5%) but highest AOV (₹192). A dedicated "Family Essentials" recommendation module could recapture significant revenue.</li>
-    </ol>
-  </div>
-
-  <div class="rec-box" style="border-left:4px solid var(--green);border-color:rgba(52,211,153,0.3)">
-    <h4>🔄 Medium-Term — Close the Loop (Month 2-3)</h4>
-    <ol>
-      <li><strong>Cart recovery system</strong> — 329 sessions add to cart but don't order. Even a simple notification system recovering 20% would add ~₹17K/month revenue.</li>
-      <li><strong>Feed cart and view data INTO inventory planning.</strong> If 63 customers added Orange Juice to cart this month, next month's opening stock should reflect that demand — not just units_sold.</li>
-      <li><strong>Segment-specific pricing and bundles</strong> — Budget segment has 35.5% repeat rate. Test basket discounts to pull them back.</li>
-    </ol>
-  </div>
-
-  <div style="margin-top:32px;padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-align:center">
-    <p style="font-size:16px;color:var(--text-dim);margin-bottom:12px">Projected Impact of Recommendations</p>
+  <div style="margin-top:24px;padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-align:center">
+    <p style="font-size:16px;color:var(--text-dim);margin-bottom:12px">Projected Impact of Recommendations &amp; Solution Engine</p>
     <div class="metrics" style="margin:0">
       <div class="metric">
         <div class="val green">+₹42K</div>
