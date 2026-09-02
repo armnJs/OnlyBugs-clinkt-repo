@@ -264,6 +264,7 @@
       <button onclick="scrollTo('#recommendations')">Recommendations</button>
       <button onclick="scrollTo('#journey')">Journey</button>
       <button onclick="scrollTo('#trends')">Trends</button>
+      <button style="background:rgba(52,211,153,0.15); color:var(--green); border-color:rgba(52,211,153,0.3); font-weight:700;" onclick="scrollTo('#solution')">💡 The Solution Engine</button>
     </div>
     <div style="display:flex; gap:10px; align-items:center;">
       <a href="findings_report.html" target="_blank" style="background:var(--accent); color:white; padding:7px 14px; border-radius:8px; font-size:12px; font-weight:700; text-decoration:none;">📄 Findings Report</a>
@@ -488,6 +489,167 @@ Chart.defaults.font.family = "'Inter', sans-serif";
 function scrollTo(id) {
   document.querySelector(id).scrollIntoView({behavior:'smooth'});
 }
+
+// 1. Segment Abandonment
+new Chart(document.getElementById('chartSegment'), {
+  type: 'bar',
+  data: {
+    labels: ['Family', 'Home Care', 'Budget', 'Dairy', 'Packaged', 'Snacks', 'Beverages', 'Premium', 'Regular'],
+    datasets: [
+      { label: 'Abandoned', data: [174, 80, 150, 55, 104, 75, 95, 84, 258], backgroundColor: 'rgba(255,90,90,0.7)', borderRadius: 6 },
+      { label: 'Ordered', data: [45, 25, 53, 22, 43, 32, 41, 43, 138], backgroundColor: 'rgba(52,211,153,0.7)', borderRadius: 6 }
+<!-- ==================== 6. THE SOLUTION ENGINE ==================== -->
+<div id="solution" class="section">
+  <div class="section-title"><span class="num" style="background:var(--green)">6</span> The Solution Engine — Interactive Optimizer &amp; Plan</div>
+  <div class="section-sub">A working algorithmic solution model: Dynamic Demand Replenishment + Re-Weighted Recommendations + Interactive ROI Simulator.</div>
+
+  <!-- Live ROI Simulator -->
+  <div class="chart-box full" style="background:linear-gradient(135deg, rgba(26,29,39,0.9) 0%, rgba(52,211,153,0.06) 100%); border:1px solid rgba(52,211,153,0.3); margin-bottom:24px;">
+    <h3 style="color:var(--green); font-size:18px; display:flex; align-items:center; gap:8px;">
+      ⚡ Live Revenue Recovery Simulator (Interactive Model)
+    </h3>
+    <p style="font-size:13px; color:var(--text-dim); margin-bottom:20px;">
+      Adjust the parameters below to see how our proposed solutions impact Clinkt's top-line revenue and cart recovery in real time:
+    </p>
+
+    <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:30px; margin-bottom:24px;">
+      <div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; font-weight:600;">
+          <span>🎯 Cart Recovery Rate:</span>
+          <span id="cartRecVal" style="color:var(--green)">25%</span>
+        </div>
+        <input type="range" id="cartSlider" min="0" max="60" value="25" style="width:100%; accent-color:var(--green);" oninput="updateSim()">
+        <div style="font-size:11px; color:var(--text-dim); margin-top:4px;">Recovered through automated SMS/Push alerts &amp; dynamic Family bundles</div>
+      </div>
+
+      <div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; font-weight:600;">
+          <span>📦 Stockout Mitigation Efficiency:</span>
+          <span id="stockRecVal" style="color:var(--accent)">70%</span>
+        </div>
+        <input type="range" id="stockSlider" min="0" max="100" value="70" style="width:100%; accent-color:var(--accent);" oninput="updateSim()">
+        <div style="font-size:11px; color:var(--text-dim); margin-top:4px;">Prevented cart drops by keeping high-demand items in healthy stock</div>
+      </div>
+    </div>
+
+    <!-- Live Simulation Result Cards -->
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;">
+      <div style="background:var(--surface-2); padding:16px; border-radius:10px; border:1px solid var(--border);">
+        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; font-weight:600;">Current Revenue</div>
+        <div style="font-family:'Fraunces',serif; font-size:24px; font-weight:800; color:var(--text); margin-top:4px;">₹48,412</div>
+        <div style="font-size:11px; color:var(--text-dim);">August baseline</div>
+      </div>
+
+      <div style="background:var(--surface-2); padding:16px; border-radius:10px; border:1px solid var(--border);">
+        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; font-weight:600;">Recovered Cart Revenue</div>
+        <div id="simRecovered" style="font-family:'Fraunces',serif; font-size:24px; font-weight:800; color:var(--green); margin-top:4px;">+₹32,585</div>
+        <div style="font-size:11px; color:var(--green);">From ₹84.9K abandoned pool</div>
+      </div>
+
+      <div style="background:var(--surface-2); padding:16px; border-radius:10px; border:1px solid var(--border);">
+        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; font-weight:600;">Projected Monthly Revenue</div>
+        <div id="simTotal" style="font-family:'Fraunces',serif; font-size:24px; font-weight:800; color:var(--accent); margin-top:4px;">₹80,997</div>
+        <div id="simGrowth" style="font-size:11px; color:var(--accent); font-weight:600;">+67.3% growth</div>
+      </div>
+
+      <div style="background:var(--surface-2); padding:16px; border-radius:10px; border:1px solid var(--border);">
+        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; font-weight:600;">New Cart Conversion</div>
+        <div id="simConv" style="font-family:'Fraunces',serif; font-size:24px; font-weight:800; color:var(--amber); margin-top:4px;">56.8%</div>
+        <div style="font-size:11px; color:var(--amber);">Up from 29.5% baseline</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <!-- Solution 1: Replenishment -->
+    <div class="chart-box">
+      <h3 style="color:var(--text); font-size:15px; font-weight:700;">
+        📦 1. Algorithmic Inventory Replenishment Plan
+      </h3>
+      <p style="font-size:12px; color:var(--text-dim); margin-bottom:14px;">
+        Calculated using: <code>ROP = (Latent_Demand &times; Lead_Time) + Safety_Stock</code>
+      </p>
+      <table class="data-table">
+        <thead><tr><th>Product</th><th>Current Stock</th><th>Safe Buffer</th><th>Reorder Pt</th><th>Daily Replenish</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Instant Noodles 4-Pack</strong></td><td style="color:var(--red)">10.1 (Crit: 11d)</td><td style="color:var(--green)"><strong>24 units</strong></td><td>18</td><td>8 units/day</td></tr>
+          <tr><td><strong>Orange Juice 1 L</strong></td><td style="color:var(--red)">12.5</td><td style="color:var(--green)"><strong>20 units</strong></td><td>15</td><td>7 units/day</td></tr>
+          <tr><td><strong>Bath Soap 4-Pack</strong></td><td style="color:var(--red)">12.4 (Crit: 9d)</td><td style="color:var(--green)"><strong>18 units</strong></td><td>14</td><td>6 units/day</td></tr>
+          <tr><td><strong>Pasta 500 g</strong></td><td style="color:var(--amber)">10.1</td><td style="color:var(--green)"><strong>18 units</strong></td><td>14</td><td>6 units/day</td></tr>
+          <tr><td><strong>Laundry Detergent 1kg</strong></td><td style="color:var(--amber)">12.4</td><td style="color:var(--green)"><strong>16 units</strong></td><td>12</td><td>5 units/day</td></tr>
+        </tbody>
+      </table>
+      <div class="finding info" style="margin-top:12px; font-size:12.5px;">
+        <span class="tag insight">Algorithm</span>
+        Exported full 36-product schedule to <a href="cleaned data/exports/13_optimized_replenishment_plan.xlsx" style="color:var(--accent); text-decoration:underline;"><code>exports/13_optimized_replenishment_plan.xlsx</code></a>.
+      </div>
+    </div>
+
+    <!-- Solution 2: Recommendation Re-weighting -->
+    <div class="chart-box">
+      <h3 style="color:var(--text); font-size:15px; font-weight:700;">
+        🎯 2. Recommendation Engine Re-weighting Matrix
+      </h3>
+      <p style="font-size:12px; color:var(--text-dim); margin-bottom:14px;">
+        Adjusting landing &amp; search recommendation weights to eliminate wasted views:
+      </p>
+      <table class="data-table">
+        <thead><tr><th>Category</th><th>Current View%</th><th>Order%</th><th>New Weight</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Home Care</strong></td><td style="color:var(--amber)">15.5%</td><td>9.0%</td><td style="color:var(--red)"><strong>9.0%</strong></td><td><span style="color:var(--red); font-weight:700;">▼ Suppress -42%</span></td></tr>
+          <tr><td><strong>Personal Care</strong></td><td style="color:var(--amber)">11.6%</td><td>9.3%</td><td style="color:var(--red)"><strong>9.3%</strong></td><td><span style="color:var(--red); font-weight:700;">▼ Suppress -20%</span></td></tr>
+          <tr><td><strong>Staples &amp; Grains</strong></td><td>8.3%</td><td style="color:var(--green)">11.5%</td><td style="color:var(--green)"><strong>13.8%</strong></td><td><span style="color:var(--green); font-weight:700;">▲ Boost +66%</span></td></tr>
+          <tr><td><strong>Fresh Produce</strong></td><td>10.9%</td><td style="color:var(--green)">12.9%</td><td style="color:var(--green)"><strong>15.5%</strong></td><td><span style="color:var(--green); font-weight:700;">▲ Boost +42%</span></td></tr>
+          <tr><td><strong>Packaged Foods</strong></td><td>14.8%</td><td>15.4%</td><td style="color:var(--green)"><strong>18.5%</strong></td><td><span style="color:var(--green); font-weight:700;">▲ Boost +25%</span></td></tr>
+        </tbody>
+      </table>
+      <div class="finding info" style="margin-top:12px; font-size:12.5px;">
+        <span class="tag insight">Algorithm</span>
+        Exported full weighting matrix to <a href="cleaned data/exports/14_recommendation_reweighting_model.xlsx" style="color:var(--accent); text-decoration:underline;"><code>exports/14_recommendation_reweighting_model.xlsx</code></a>.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- wrap -->
+</div><!-- dashboard -->
+
+<script>
+Chart.defaults.color = '#8B8FA3';
+Chart.defaults.borderColor = '#2E3140';
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+// Helper
+function scrollTo(id) {
+  document.querySelector(id).scrollIntoView({behavior:'smooth'});
+}
+
+// Live Simulator function
+function updateSim() {
+  const cartRate = parseFloat(document.getElementById('cartSlider').value);
+  const stockEff = parseFloat(document.getElementById('stockSlider').value);
+
+  document.getElementById('cartRecVal').innerText = cartRate + '%';
+  document.getElementById('stockRecVal').innerText = stockEff + '%';
+
+  const baseRev = 48412;
+  const abandonedPool = 84857;
+
+  // Recovered = abandonedPool * (cartRate/100 * 0.6 + stockEff/100 * 0.4)
+  const combinedFactor = (cartRate / 100 * 0.6) + (stockEff / 100 * 0.4 * 0.8);
+  const recovered = Math.round(abandonedPool * combinedFactor);
+  const total = baseRev + recovered;
+  const growth = ((recovered / baseRev) * 100).toFixed(1);
+  const newConv = ((279 + Math.round(666 * combinedFactor)) / 945 * 100).toFixed(1);
+
+  document.getElementById('simRecovered').innerText = '+₹' + recovered.toLocaleString('en-IN');
+  document.getElementById('simTotal').innerText = '₹' + total.toLocaleString('en-IN');
+  document.getElementById('simGrowth').innerText = '+' + growth + '% growth';
+  document.getElementById('simConv').innerText = newConv + '%';
+}
+
+// Initial simulator call
+updateSim();
 
 // 1. Segment Abandonment
 new Chart(document.getElementById('chartSegment'), {

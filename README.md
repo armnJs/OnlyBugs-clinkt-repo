@@ -17,30 +17,36 @@ Clinkt is hemorrhaging revenue through a **triple failure**: a broken recommenda
 
 ## How to View Our Work
 
-### Report / Dashboard
-- **Findings Report (PDF)**: [`findings_report.pdf`](findings_report.pdf) — Complete 7-page presentation report with linked evidence chains, ruled-out hypotheses, and quantified business impact.
-- **Findings Report (HTML)**: [`findings_report.html`](findings_report.html) — Interactive / Printable HTML report.
-- **Interactive Investigation Dashboard**: [`dashboard.html`](dashboard.html) — Live interactive Chart.js analytics dashboard.
+### Report / Dashboard & Solution Engine
+- **Findings Report (PDF)**: [`findings_report.pdf`](findings_report.pdf) — Complete 7-page executive report with linked evidence chains, ruled-out hypotheses, and financial recovery models.
+- **Interactive Investigation Dashboard & Solution Simulator**: [`dashboard.html`](dashboard.html) — Live interactive Chart.js analytics dashboard with real-time **Revenue Recovery Simulator**, Dynamic Replenishment Table, and Recommendation Re-Weighting Matrix.
 - **Storefront Prototype UI**: [`clinkt-ui.html`](clinkt-ui.html) — Customer-facing e-commerce storefront prototype.
 
-### Code
-- **Full Investigation Script**: [`cleaned data/full_investigation.py`](cleaned%20data/full_investigation.py) — runs all 5 investigations
-- **Data Export Script**: [`cleaned data/export_data.py`](cleaned%20data/export_data.py) — generates 12 Excel files
-- **Analysis Scripts**: [`cleaned data/`](cleaned%20data/) — individual analysis notebooks (10 scripts)
+### Code & Solution Engine
+- **Solution Engine & Optimization Model**: [`cleaned data/solution_engine.py`](cleaned%20data/solution_engine.py) — calculates dynamic reorder points (ROP), safety stocks, and category recommendation weights.
+- **Full Investigation Script**: [`cleaned data/full_investigation.py`](cleaned%20data/full_investigation.py) — executes all 5 root-cause investigations.
+- **Data Export Script**: [`cleaned data/export_data.py`](cleaned%20data/export_data.py) — generates cleaned analytical datasets.
+- **Analysis Scripts**: [`cleaned data/`](cleaned%20data/) — individual analysis notebooks.
 
-### Data Outputs
-- **Cleaned Datasets**: [`cleaned data/exports/`](cleaned%20data/exports/) — 12 Excel files covering funnel, inventory, segments, cities, products
-- **Chart Data**: [`cleaned data/charts/`](cleaned%20data/charts/) — JSON data powering the dashboard
+### Data Outputs & Solution Plans
+- **Cleaned Datasets & Solution Schedules**: [`cleaned data/exports/`](cleaned%20data/exports/) — 14 Excel files including:
+  - `13_optimized_replenishment_plan.xlsx` (Dynamic safety stocks & reorder points for all 36 SKUs)
+  - `14_recommendation_reweighting_model.xlsx` (Corrected category visibility weights)
+  - Full funnel, segment, inventory, and city analytical exports.
+- **Chart & Simulation Data**: [`cleaned data/charts/`](cleaned%20data/charts/) — JSON data powering the live dashboard and simulator.
 
 ### How to Run
 ```bash
-# Requires Python 3.6+ with pandas, numpy
+# Requires Python 3.6+ with pandas, numpy, openpyxl
 pip install pandas numpy openpyxl
 
-# Run the full investigation
+# Run the full investigation pipeline
 python "cleaned data/full_investigation.py"
 
-# Generate Excel exports
+# Run the solution engine & generate optimization models
+python "cleaned data/solution_engine.py"
+
+# Generate analytical Excel exports
 python "cleaned data/export_data.py"
 ```
 
